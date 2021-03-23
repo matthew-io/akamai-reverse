@@ -1649,10 +1649,10 @@ var _cf = _cf || [],
                         : n >= 112 && n <= 123
                         ? -4
                         : -2),
-                  k != bmak[_ac[387]]
-                    ? ((bmak.fidcnt = 0), (bmak[_ac[387]] = k))
+                  k != bmak.prevfid
+                    ? ((bmak.fidcnt = 0), (bmak.prevfid = k))
                     : (bmak.fidcnt = bmak.fidcnt + 1);
-                if (0 == bmak[_ac[687]](n)) {
+                if (0 == bmak.isIgn(n)) {
                   var u =
                     bmak.ke_cnt +
                     "," +
@@ -1818,7 +1818,7 @@ var _cf = _cf || [],
               }
               bmak.js_post &&
                 bmak.dme_cnt > 1 &&
-                bmak.aj_indx_dmact < bmak[_ac[10]] &&
+                bmak.aj_indx_dmact < bmak.aj_lmt_dmact &&
                 ((bmak.aj_type = 7),
                 bmak.bpd(),
                 bmak.pd(!0),
@@ -2253,72 +2253,73 @@ var _cf = _cf || [],
           hvc: function () {
             try {
               var t = 1;
-              document[bmak[_ac[708]]] && (t = 0), bmak[_ac[427]](t);
+              document[bmak.hn] && (t = 0), bmak.lvc(t);
             } catch (t) {}
           },
           hb: function (t) {
-            bmak[_ac[427]](2);
+            bmak.lvc(2);
           },
           hf: function (t) {
-            bmak[_ac[427]](3);
+            bmak.lvc(3);
           },
           rve: function () {
-            void 0 !== document[_ac[596]]
-              ? ((bmak[_ac[708]] = _ac[596]), (bmak[_ac[645]] = _ac[734]))
-              : void 0 !== document[_ac[337]]
-              ? ((bmak[_ac[708]] = _ac[337]), (bmak[_ac[645]] = _ac[660]))
-              : void 0 !== document[_ac[63]]
-              ? ((bmak[_ac[708]] = _ac[63]), (bmak[_ac[645]] = _ac[296]))
-              : void 0 !== document[_ac[95]] &&
-                ((bmak[_ac[708]] = _ac[95]), (bmak[_ac[645]] = _ac[293])),
+            void 0 !== document.hidden
+              ? ((bmak.hn = "hidden"), (bmak.vc = "visibilitychange"))
+              : void 0 !== document.mozHidden
+              ? ((bmak.hn = "mozHidden"), (bmak.vc = "mozvisibilitychange"))
+              : void 0 !== document.msHidden
+              ? ((bmak.hn = "msHidden"), (bmak.vc = "msvisibilitychange"))
+              : void 0 !== document.webkitHidden &&
+                ((bmak.hn = "webkitHidden"),
+                (bmak.vc = "webkitvisibilitychange")),
               document.addEventListener
-                ? _ac[51] != bmak[_ac[708]] &&
-                  document.addEventListener(bmak[_ac[645]], bmak[_ac[367]], !0)
-                : document[_ac[675]] &&
-                  _ac[51] != bmak[_ac[708]] &&
-                  document[_ac[675]](bmak[_ac[645]], bmak[_ac[367]]),
-              (window[_ac[589]] = bmak[_ac[313]]),
-              (window[_ac[97]] = bmak[_ac[731]]);
+                ? "unk" != bmak.hn &&
+                  document.addEventListener(bmak.vc, bmak.hvc, !0)
+                : document.attachEvent &&
+                  "unk" != bmak.hn &&
+                  document.attachEvent(bmak.vc, bmak.hvc),
+              (window.onblur = bmak.hb),
+              (window.onfocus = bmak.hf);
           },
           startTracking: function () {
-            bmak[_ac[504]]();
+            bmak.startdoadma();
             try {
-              bmak[_ac[707]]();
+              bmak.to();
             } catch (t) {
               bmak.o9 = -654321;
             }
             setInterval(function () {
-              bmak[_ac[504]]();
+              bmak.startdoadma();
             }, 3e3),
               document.addEventListener
-                ? (document.addEventListener(_ac[528], bmak[_ac[62]], !0),
-                  document.addEventListener(_ac[649], bmak[_ac[216]], !0),
-                  document.addEventListener(_ac[389], bmak[_ac[456]], !0),
-                  document.addEventListener(_ac[223], bmak[_ac[14]], !0),
-                  document.addEventListener(_ac[68], bmak[_ac[276]], !0),
-                  document.addEventListener(_ac[357], bmak[_ac[316]], !0),
-                  document.addEventListener(_ac[406], bmak[_ac[454]], !0),
-                  document.addEventListener(_ac[446], bmak[_ac[500]], !0),
-                  document.addEventListener(_ac[642], bmak[_ac[89]], !0),
-                  document.addEventListener(_ac[401], bmak[_ac[255]], !0),
-                  document.addEventListener(_ac[203], bmak[_ac[481]], !0),
-                  document.addEventListener(_ac[262], bmak[_ac[83]], !0),
-                  document.addEventListener(_ac[12], bmak[_ac[654]], !0))
-                : document[_ac[675]] &&
-                  (document[_ac[675]](_ac[528], bmak[_ac[62]]),
-                  document[_ac[675]](_ac[649], bmak[_ac[216]]),
-                  document[_ac[675]](_ac[389], bmak[_ac[456]]),
-                  document[_ac[675]](_ac[223], bmak[_ac[14]]),
-                  document[_ac[675]](_ac[577], bmak[_ac[276]]),
-                  document[_ac[675]](_ac[448], bmak[_ac[316]]),
-                  document[_ac[675]](_ac[291], bmak[_ac[454]]),
-                  document[_ac[675]](_ac[270], bmak[_ac[500]]),
-                  document[_ac[675]](_ac[669], bmak[_ac[89]]),
-                  document[_ac[675]](_ac[569], bmak[_ac[255]]),
-                  document[_ac[675]](_ac[491], bmak[_ac[481]]),
-                  document[_ac[675]](_ac[579], bmak[_ac[83]]),
-                  document[_ac[675]](_ac[364], bmak[_ac[654]])),
-              bmak[_ac[533]](),
+                ? (document.addEventListener("touchmove", bmak.htm, !0),
+                  document.addEventListener("touchstart", bmak.hts, !0),
+                  document.addEventListener("touchend", bmak.hte, !0),
+                  document.addEventListener("touchcancel", bmak.htc, !0),
+                  document.addEventListener("mousemove", bmak.hmm, !0),
+                  document.addEventListener("click", bmak.hc, !0),
+                  document.addEventListener("mousedown", bmak.hmd, !0),
+                  document.addEventListener("mouseup", bmak.hmu, !0),
+                  document.addEventListener("pointerdown", bmak.hpd, !0),
+                  document.addEventListener("pointerup", bmak.hpu, !0),
+                  document.addEventListener("keydown", bmak.hkd, !0),
+                  document.addEventListener("keyup", bmak.hku, !0),
+                  document.addEventListener("keypress", bmak.hkp, !0))
+                : document.attachEvent &&
+                  (document.attachEvent("touchmove", bmak.htm),
+                  document.attachEvent("touchstart", bmak.hts),
+                  document.attachEvent("touchend", bmak.hte),
+                  document.attachEvent("touchcancel", bmak.htc),
+                  document.attachEvent("onmousemove", bmak.hmm),
+                  document.attachEvent("onclick", bmak.hc),
+                  document.attachEvent("onmousedown", bmak.hmd),
+                  document.attachEvent("onmousedown", bmak.hmu),
+                  document.attachEvent("onpointerdown", bmak.hpd),
+                  document.attachEvent("onpointerup", bmak.hpu),
+                  document.attachEvent("onkeydown", bmak.hkd),
+                  document.attachEvent("onkeyup", bmak.hku),
+                  document.attachEvent("onkeypress", bmak.hkp)),
+              bmak.rve(),
               (bmak.informinfo = bmak.getforminfo()),
               bmak.js_post && ((bmak.aj_type = 0), bmak.bpd(), bmak.pd(!0)),
               (bmak.firstLoad = !1);
@@ -2337,16 +2338,17 @@ var _cf = _cf || [],
                 m,
                 r,
                 i,
-                c = _ac[421],
+                c =
+                  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
                 b = "",
                 d = 3 * Math.floor(t.length / 3),
                 s = 0;
               s < d;
               s += 3
             )
-              (a = bmak[_ac[576]](t, s)),
-                (e = bmak[_ac[576]](t, s + 1)),
-                (n = bmak[_ac[576]](t, s + 2)),
+              (a = bmak.gb(t, s)),
+                (e = bmak.gb(t, s + 1)),
+                (n = bmak.gb(t, s + 2)),
                 (o = a >> 2),
                 (m = ((3 & a) << 4) + (e >> 4)),
                 (r = ((15 & e) << 2) + (n >> 6)),
@@ -2354,13 +2356,13 @@ var _cf = _cf || [],
                 (b = b + c.charAt(o) + c.charAt(m) + c.charAt(r) + c.charAt(i));
             return (
               t.length % 3 == 1 &&
-                ((a = bmak[_ac[576]](t, s)),
+                ((a = bmak.gb(t, s)),
                 (o = a >> 2),
                 (m = (3 & a) << 4),
-                (b = b + c.charAt(o) + c.charAt(m) + _ac[444])),
+                (b = b + c.charAt(o) + c.charAt(m) + "==")),
               t.length % 3 == 2 &&
-                ((a = bmak[_ac[576]](t, s)),
-                (e = bmak[_ac[576]](t, s + 1)),
+                ((a = bmak.gb(t, s)),
+                (e = bmak.gb(t, s + 1)),
                 (o = a >> 2),
                 (m = ((3 & a) << 4) + (e >> 4)),
                 (r = (15 & e) << 2),
@@ -2371,10 +2373,10 @@ var _cf = _cf || [],
           ie9OrLower: function () {
             try {
               if (
-                "string" == typeof navigator[_ac[637]] &&
-                -1 != navigator[_ac[637]].indexOf(_ac[420])
+                "string" == typeof navigator.appVersion &&
+                -1 != navigator.appVersion.indexOf("MSIE")
               ) {
-                if (parseFloat(navigator[_ac[637]].split(_ac[420])[1]) <= 9)
+                if (parseFloat(navigator.appVersion.split("MSIE")[1]) <= 9)
                   return !0;
               }
             } catch (t) {}
@@ -2387,16 +2389,17 @@ var _cf = _cf || [],
               ? (t = new XMLHttpRequest())
               : void 0 !== window.XDomainRequest
               ? ((t = new XDomainRequest()),
-                (t[_ac[6]] = function () {
-                  (this[_ac[171]] = 4),
-                    this[_ac[650]] instanceof Function && this[_ac[650]]();
+                (t.onload = function () {
+                  (this.readyState = 4),
+                    this.onreadystatechange instanceof Function &&
+                      this.onreadystatechange();
                 }))
-              : (t = new ActiveXObject(_ac[91])),
-              t[_ac[594]](_ac[686], bmak[_ac[479]], !0),
-              (t[_ac[650]] = function () {
-                t[_ac[171]] > 3 && bmak[_ac[165]] && bmak[_ac[165]](t);
+              : (t = new ActiveXObject("Microsoft.XMLHTTP")),
+              t.open("GET", bmak.params_url, !0),
+              (t.onreadystatechange = function () {
+                t.readyState > 3 && bmak.parse_gp && bmak.parse_gp(t);
               }),
-              t[_ac[439]]();
+              t.send();
           },
           apicall: function (t, a) {
             var e;
@@ -2404,23 +2407,23 @@ var _cf = _cf || [],
               ? new XDomainRequest()
               : window.XMLHttpRequest
               ? new XMLHttpRequest()
-              : new ActiveXObject(_ac[91])),
-              e[_ac[594]](_ac[404], t, a);
-            var n = bmak[_ac[510]](bmak.api_public_key + ":");
-            (bmak[_ac[772]] = _ac[343] + n + _ac[272]),
-              e[_ac[75]] &&
-                (e[_ac[75]](_ac[502], _ac[398]),
-                e[_ac[75]](_ac[365], _ac[147] + n),
-                (bmak[_ac[772]] = ""));
+              : new ActiveXObject("Microsoft.XMLHTTP")),
+              e.open("POST", t, a);
+            var n = bmak.encode(bmak.api_public_key + ":");
+            (bmak.auth = ',"auth" : "' + n + '"'),
+              e.setRequestHeader &&
+                (e.setRequestHeader("Content-type", "application/json"),
+                e.setRequestHeader("Authorization", "Basic" + n),
+                (bmak.auth = ""));
             var o =
-              _ac[355] +
-              bmak[_ac[739]] +
-              _ac[252] +
+              '{"session_id" : "' +
+              bmak.session_id +
+              '","sensor_data" : "' +
               bmak.sensor_data +
-              _ac[272] +
-              bmak[_ac[772]] +
-              _ac[652];
-            e[_ac[439]](o);
+              '"' +
+              bmak.auth +
+              "}";
+            e.send(o);
           },
           apicall_bm: function (t, a, e) {
             var n;
@@ -2428,32 +2431,33 @@ var _cf = _cf || [],
               ? (n = new XMLHttpRequest())
               : void 0 !== window.XDomainRequest
               ? ((n = new XDomainRequest()),
-                (n[_ac[6]] = function () {
-                  (this[_ac[171]] = 4),
-                    this[_ac[650]] instanceof Function && this[_ac[650]]();
+                (n.onload = function () {
+                  (this.readyState = 4),
+                    this.onreadystatechange instanceof Function &&
+                      this.onreadystatechange();
                 }))
-              : (n = new ActiveXObject(_ac[91])),
-              n[_ac[594]](_ac[404], t, a),
-              void 0 !== n[_ac[19]] && (n[_ac[19]] = !0);
-            var o = _ac[551] + bmak.sensor_data + _ac[628];
-            (n[_ac[650]] = function () {
-              n[_ac[171]] > 3 && e && e(n);
+              : (n = new ActiveXObject("Microsoft.XMLHTTP")),
+              n.open("POST", t, a),
+              void 0 !== n.withCredentials && (n.withCredentials = !0);
+            var o = '{"sensor_data":"' + bmak.sensor_data + '"}';
+            (n.onreadystatechange = function () {
+              n.readyState > 3 && e && e(n);
             }),
-              n[_ac[439]](o),
-              (bmak[_ac[199]] = 0);
+              n.send(o),
+              (bmak.dcs = 0);
           },
           pd: function (t) {
-            bmak[_ac[702]]()
-              ? (bmak[_ac[537]](bmak[_ac[689]], t, bmak[_ac[269]]),
+            bmak.check_stop_protocol()
+              ? (bmak.apicall_bm(bmak.cf_url, t, bmak.patp),
                 (bmak.aj_indx = bmak.aj_indx + 1))
-              : bmak[_ac[249]] &&
-                bmak[_ac[199]] &&
-                bmak[_ac[537]](bmak[_ac[689]], t, bmak[_ac[269]]);
+              : bmak.loap &&
+                bmak.dcs &&
+                bmak.apicall_bm(bmak.cf_url, t, bmak.patp);
           },
           check_stop_protocol: function () {
-            var t = bmak[_ac[736]](),
+            var t = bmak.get_stop_signals(),
               a = t[0];
-            !bmak[_ac[534]] && a > -1 && (bmak.ir(), (bmak[_ac[534]] = !0));
+            !bmak.rst && a > -1 && (bmak.ir(), (bmak.rst = !0));
             var e = t[1];
             return -1 == e || bmak.aj_ss < e;
           },
@@ -2474,7 +2478,7 @@ var _cf = _cf || [],
             return t;
           },
           patp: function (t) {
-            bmak.aj_ss++, (bmak[_ac[534]] = !1);
+            bmak.aj_ss++, (bmak.rst = !1);
           },
           get_mn_params_from_abck: function () {
             var t = [[]];
@@ -2839,7 +2843,7 @@ var _cf = _cf || [],
                     ]()),
                     bmak.js_post &&
                       ((bmak.aj_type = 8),
-                      2 == bmak[_ac[648]] && (bmak[_ac[199]] = 1),
+                      2 == bmak[_ac[648]] && (bmak.dcs = 1),
                       bmak.bpd(),
                       bmak.pd(!0)));
             } catch (t) {
@@ -2875,7 +2879,7 @@ var _cf = _cf || [],
               (bmak.js_post = t), bmak.js_post && (bmak.enReadDocUrl = 1);
             },
             _setSessionId: function (t) {
-              bmak[_ac[739]] = t;
+              bmak.session_id = t;
             },
             _setJavaScriptKey: function (t) {
               bmak.api_public_key = t;
@@ -2887,7 +2891,7 @@ var _cf = _cf || [],
               bmak.init_time = t;
             },
             _setApiUrl: function (t) {
-              bmak[_ac[689]] = t;
+              bmak.cf_url = t;
             },
             _setEnGetLoc: function (t) {
               bmak[_ac[78]] = t;
@@ -2907,15 +2911,12 @@ var _cf = _cf || [],
             _setFsp: function (t) {
               (bmak[_ac[305]] = t),
                 bmak[_ac[305]] &&
-                  (bmak[_ac[689]] = bmak[_ac[689]].replace(
-                    /^http:\/\//i,
-                    _ac[478]
-                  ));
+                  (bmak.cf_url = bmak.cf_url.replace(/^http:\/\//i, _ac[478]));
             },
             _setBm: function (t) {
               (bmak.bm = t),
                 bmak.bm
-                  ? ((bmak[_ac[689]] =
+                  ? ((bmak.cf_url =
                       (bmak[_ac[305]]
                         ? _ac[45]
                         : document[_ac[225]][_ac[200]]) +
@@ -2923,7 +2924,7 @@ var _cf = _cf || [],
                       document[_ac[225]][_ac[651]] +
                       _ac[323]),
                     (bmak.js_post = !0))
-                  : (bmak[_ac[479]] =
+                  : (bmak.params_url =
                       (bmak[_ac[305]]
                         ? _ac[45]
                         : document[_ac[225]][_ac[200]]) +
@@ -2934,14 +2935,14 @@ var _cf = _cf || [],
             _setAu: function (t) {
               "string" == typeof t &&
                 (0 === t[_ac[260]](_ac[220], 0)
-                  ? (bmak[_ac[689]] =
+                  ? (bmak.cf_url =
                       (bmak[_ac[305]]
                         ? _ac[45]
                         : document[_ac[225]][_ac[200]]) +
                       _ac[141] +
                       document[_ac[225]][_ac[651]] +
                       t)
-                  : (bmak[_ac[689]] = t));
+                  : (bmak.cf_url = t));
             },
             _setSDFieldNames: function () {
               try {
@@ -2962,7 +2963,7 @@ var _cf = _cf || [],
               bmak[_ac[394]] = t;
             },
             _setLOAP: function (t) {
-              bmak[_ac[249]] = t;
+              bmak.loap = t;
             },
           },
           applyFunc: function () {
