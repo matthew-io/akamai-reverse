@@ -1489,92 +1489,100 @@ var _cf = _cf || [],
 
             )
               o.push(parseInt(e.slice(n, n + 2))), (n = m ? n + 3 : n + 2);
-            return [a, bmak[_ac[30]](o)];
+            return [a, bmak.cal_dis(o)];
           },
           fm: function () {
             var t = [
-                _ac[618],
-                _ac[331],
-                _ac[112],
-                _ac[526],
-                _ac[570],
-                _ac[525],
-                _ac[261],
-                _ac[71],
-                _ac[695],
-                _ac[630],
-                _ac[523],
-                _ac[73],
-                _ac[722],
-                _ac[245],
+                "Monospace",
+                "Wingdings 2",
+                "ITC Bodoni 72 Bold",
+                "Menlo",
+                "Gill Sans MT",
+                "Lucida Sans",
+                "Bodoni 72",
+                "Serif",
+                "Shree Devanagari 714",
+                "Microsoft Tai Le",
+                "Nimbus Roman No 9 L",
+                "Candara",
+                "Press Start 2P",
+                "Waseem",
               ],
-              a = document[_ac[615]](_ac[572]);
-            (a[_ac[670]] = _ac[416]), (a[_ac[419]][_ac[274]] = _ac[214]);
+              a = document.createElement("span");
+            (a.innerHTML = "mmmmmmmmlli"), (a.style.fontSize = "192px");
             var e = "",
-              n = document[_ac[718]](_ac[692])[0];
+              n = document.getElementsByTagName("body")[0];
             if (n) {
               for (var o in t)
-                (a[_ac[419]][_ac[423]] = t[o]),
-                  n[_ac[210]](a),
+                (a.style.fontFamily = t[o]),
+                  n.appendChild(a),
                   (e +=
-                    t[o] + _ac[667] + a[_ac[207]] + "," + a[_ac[468]] + ";"),
-                  n[_ac[273]](a);
-              bmak.fmh = bmak[_ac[130]](bmak[_ac[202]](e));
+                    t[o] + ":" + a.offsetWidth + "," + a.offsetHeight + ";"),
+                  n.removeChild(a);
+              bmak.fmh = bmak.ats(bmak.mn_s(e));
             } else bmak.fmh = "";
             bmak.fmz =
-              _ac[168] in window && void 0 !== window[_ac[168]]
-                ? window[_ac[168]]
+              devicePixelRatio in window && void 0 !== window.devicePixelRatio
+                ? window.devicePixelRatio
                 : -1;
           },
           wgl: function () {
             try {
-              var t = document[_ac[615]](_ac[96]),
-                a = t[_ac[631]](_ac[330]);
-              (bmak.wv = _ac[267]),
-                (bmak.wr = _ac[267]),
-                (bmak.weh1 = _ac[267]),
+              var t = document.createElement("canvas"),
+                a = t.getContext("webgl");
+              (bmak.wv = "n"),
+                (bmak.wr = "n"),
+                (bmak.weh1 = "n"),
                 (bmak.wl = 0),
                 a &&
-                  ((bmak.wv = _ac[451]),
-                  (bmak.wr = _ac[451]),
-                  (bmak.weh1 = _ac[451]),
-                  a[_ac[418]]() &&
-                    ((bmak.weh1 = bmak[_ac[130]](
-                      bmak[_ac[202]](JSON[_ac[744]](a[_ac[418]]()[_ac[27]]()))
+                  ((bmak.wv = "b"),
+                  (bmak.wr = "b"),
+                  (bmak.weh1 = "b"),
+                  a.getSupportedExtensions() &&
+                    ((bmak.weh1 = bmak.ats(
+                      bmak.mn_s(
+                        JSON.stringify(a.getSupportedExtensions().sort())
+                      )
                     )),
-                    (bmak.wl = a[_ac[418]]().length),
-                    a[_ac[418]]().indexOf(_ac[452]) >= 0 &&
-                      ((bmak.wv = a[_ac[148]](a[_ac[672]](_ac[452])[_ac[191]])),
-                      (bmak.wr = a[_ac[148]](
-                        a[_ac[672]](_ac[452])[_ac[208]]
+                    (bmak.wl = a.getSupportedExtensions().length),
+                    a
+                      .getSupportedExtensions()
+                      .indexOf(WEBGL_debug_renderer_info) >= 0 &&
+                      ((bmak.wv = a.getParameter(
+                        a.getExtension(WEBGL_debug_renderer_info)
+                          .UNMASKED_VENDOR_WEBGL
+                      )),
+                      (bmak.wr = a.getParameter(
+                        a.getExtension(WEBGL_debug_renderer_info)
+                          .UNMASKED_RENDERER_WEBGL
                       )))));
             } catch (t) {
-              (bmak.wv = _ac[15]),
-                (bmak.wr = _ac[15]),
-                (bmak.weh1 = _ac[15]),
+              (bmak.wv = "e"),
+                (bmak.wr = "e"),
+                (bmak.weh1 = "e"),
                 (bmak.wl = 0);
             }
           },
           csh: function () {
-            if (window[_ac[154]]) {
-              var t = window[_ac[154]][_ac[98]]();
+            if (window.speechSynthesis) {
+              var t = window.speechSynthesis.getVoices();
               if (t.length > 0) {
                 for (var a = "", e = 0; e < t.length; e++)
-                  a += t[e][_ac[546]] + _ac[613] + t[e].lang;
-                bmak.ssh = bmak[_ac[130]](bmak[_ac[202]](a));
+                  a += t[e].voiceURI + "_" + t[e].lang;
+                bmak.ssh = bmak.ats(bmak.mn_s(a));
               } else bmak.ssh = 0;
-            } else bmak.ssh = _ac[267];
+            } else bmak.ssh = "n";
           },
           gf: function (t) {
             var a;
             if (
-              ((a = null == t ? document[_ac[183]] : t),
-              null == document[_ac[183]])
+              ((a = null == t ? document.activeElement : t),
+              null == document.activeElement)
             )
               return -1;
-            var e = a.getAttribute(_ac[182]);
+            var e = a.getAttribute("name");
             if (null == e) {
-              var n = a.getAttribute(_ac[574]);
+              var n = a.getAttribute("id");
               return null == n ? -1 : bmak.ab(n);
             }
             return bmak.ab(e);
@@ -1601,11 +1609,11 @@ var _cf = _cf || [],
             return n;
           },
           isIgn: function (t) {
-            var a = document[_ac[183]];
-            if (null == document[_ac[183]]) return 0;
-            var e = a.getAttribute(_ac[611]);
-            return 1 == (null == e ? -1 : bmak[_ac[235]](e)) &&
-              bmak[_ac[717]] > 12 &&
+            var a = document.activeElement;
+            if (null == document.activeElement) return 0;
+            var e = a.getAttribute("type");
+            return 1 == (null == e ? -1 : bmak.get_type(e)) &&
+              bmak.fidcnt > 12 &&
               -2 == t
               ? 1
               : 0;
@@ -1615,13 +1623,13 @@ var _cf = _cf || [],
               var e = t || window.event,
                 n = -1,
                 o = 1;
-              if (bmak[_ac[2]] < bmak[_ac[326]] && e) {
-                n = e[_ac[74]];
-                var m = e[_ac[317]],
-                  r = e[_ac[309]] ? 1 : 0,
-                  i = e[_ac[437]] ? 1 : 0,
-                  c = e[_ac[103]] ? 1 : 0,
-                  b = e[_ac[18]] ? 1 : 0,
+              if (bmak.ke_cnt < bmak.ke_cnt_lmt && e) {
+                n = e.keyCode;
+                var m = e.charCode,
+                  r = e.shiftKey ? 1 : 0,
+                  i = e.ctrlKey ? 1 : 0,
+                  c = e.metaKey ? 1 : 0,
+                  b = e.altKey ? 1 : 0,
                   d = 8 * r + 4 * i + 2 * c + b,
                   s = bmak.get_cf_date() - bmak.start_ts,
                   k = bmak.gf(null),
@@ -1642,11 +1650,11 @@ var _cf = _cf || [],
                         ? -4
                         : -2),
                   k != bmak[_ac[387]]
-                    ? ((bmak[_ac[717]] = 0), (bmak[_ac[387]] = k))
-                    : (bmak[_ac[717]] = bmak[_ac[717]] + 1);
+                    ? ((bmak.fidcnt = 0), (bmak[_ac[387]] = k))
+                    : (bmak.fidcnt = bmak.fidcnt + 1);
                 if (0 == bmak[_ac[687]](n)) {
                   var u =
-                    bmak[_ac[2]] +
+                    bmak.ke_cnt +
                     "," +
                     a +
                     "," +
@@ -1659,15 +1667,15 @@ var _cf = _cf || [],
                     d +
                     "," +
                     k;
-                  void 0 !== e.slice && !1 === e.slice && (u += _ac[602]),
+                  void 0 !== e.slice && !1 === e.slice && (u += ",0"),
                     (u += ";"),
-                    (bmak[_ac[426]] = bmak[_ac[426]] + u),
-                    (bmak[_ac[725]] =
-                      bmak[_ac[725]] + bmak[_ac[2]] + a + s + n + d + k),
+                    (bmak.kact = bmak.kact + u),
+                    (bmak.ke_vel =
+                      bmak.ke_vel + bmak.ke_cnt + a + s + n + d + k),
                     (bmak.ta += s);
                 } else o = 0;
               }
-              o && e && bmak[_ac[2]]++,
+              o && e && bmak.ke_cnt++,
                 !bmak.js_post ||
                   1 != a ||
                   (13 != n && 9 != n) ||
@@ -1680,8 +1688,8 @@ var _cf = _cf || [],
           cta: function (t, a) {
             try {
               if (
-                (1 == a && bmak.tme_cnt < bmak[_ac[169]]) ||
-                (1 != a && bmak.tduce_cnt < bmak[_ac[466]])
+                (1 == a && bmak.tme_cnt < bmak.tme_cnt_lmt) ||
+                (1 != a && bmak.tduce_cnt < bmak.tduce_cnt_lmt)
               ) {
                 var e = t || window.event,
                   n = -1,
@@ -1694,18 +1702,18 @@ var _cf = _cf || [],
                     ((n = Math.floor(e.clientX)), (o = Math.floor(e.cientY)));
                 var m = bmak.get_cf_date() - bmak.start_ts,
                   r = bmak.te_cnt + "," + a + "," + m + "," + n + "," + o;
-                void 0 !== e.slice && !1 === e.slice && (r += _ac[602]),
+                void 0 !== e.slice && !1 === e.slice && (r += ",0"),
                   (bmak.tact = bmak.tact + r + ";"),
                   (bmak.ta += m),
                   (bmak.te_vel = bmak.te_vel + bmak.te_cnt + a + m + n + o),
-                  (bmak[_ac[726]] = 0),
-                  (bmak[_ac[379]] = 0);
+                  (bmak.doa_throttle = 0),
+                  (bmak.dma_throttle = 0);
               }
               1 == a ? bmak.tme_cnt++ : bmak.tduce_cnt++,
                 bmak.te_cnt++,
                 bmak.js_post &&
                   2 == a &&
-                  bmak.aj_indx_tact < bmak[_ac[375]] &&
+                  bmak.aj_indx_tact < bmak.aj_lmt_tact &&
                   ((bmak.aj_type = 5),
                   bmak.bpd(),
                   bmak.pd(!0),
@@ -1715,22 +1723,26 @@ var _cf = _cf || [],
           },
           getFloatVal: function (t) {
             try {
-              if (-1 != bmak[_ac[748]](t) && !isNaN(t)) {
+              if (-1 != bmak.chknull(t) && !isNaN(t)) {
                 var a = parseFloat(t);
-                if (!isNaN(a)) return a[_ac[625]](2);
+                if (!isNaN(a)) return a.toFixed(2);
               }
             } catch (t) {}
             return -1;
           },
           cdoa: function (t) {
             try {
-              if (bmak.doe_cnt < bmak[_ac[459]] && bmak[_ac[726]] < 2 && t) {
+              if (
+                bmak.doe_cnt < bmak.doe_cnt_lmt &&
+                bmak.doa_throttle < 2 &&
+                t
+              ) {
                 var a = bmak.get_cf_date() - bmak.start_ts,
-                  e = bmak[_ac[325]](t[_ac[333]]),
-                  n = bmak[_ac[325]](t[_ac[693]]),
-                  o = bmak[_ac[325]](t[_ac[723]]),
+                  e = bmak.getFloatVal(t.alpha),
+                  n = bmak.getFloatVal(t.beta),
+                  o = bmak.getFloatVal(t.gamma),
                   m = bmak.doe_cnt + "," + a + "," + e + "," + n + "," + o;
-                void 0 !== t.slice && !1 === t.slice && (m += _ac[602]),
+                void 0 !== t.slice && !1 === t.slice && (m += ",0"),
                   (bmak.doact = bmak.doact + m + ";"),
                   (bmak.ta += a),
                   (bmak.doe_vel = bmak.doe_vel + bmak.doe_cnt + a),
@@ -1738,40 +1750,44 @@ var _cf = _cf || [],
               }
               bmak.js_post &&
                 bmak.doe_cnt > 1 &&
-                bmak.aj_indx_doact < bmak[_ac[108]] &&
+                bmak.aj_indx_doact < bmak.aj_lmt_doact &&
                 ((bmak.aj_type = 6),
                 bmak.bpd(),
                 bmak.pd(!0),
                 (bmak.ce_js_post = 1),
                 bmak.aj_indx_doact++),
-                bmak[_ac[726]]++;
+                bmak.doa_throttle++;
             } catch (t) {}
           },
           cdma: function (t) {
             try {
-              if (bmak.dme_cnt < bmak[_ac[222]] && bmak[_ac[379]] < 2 && t) {
+              if (
+                bmak.dme_cnt < bmak.dme_cnt_lmt &&
+                bmak.dma_throttle < 2 &&
+                t
+              ) {
                 var a = bmak.get_cf_date() - bmak.start_ts,
                   e = -1,
                   n = -1,
                   o = -1;
-                t[_ac[264]] &&
-                  ((e = bmak[_ac[325]](t[_ac[264]][_ac[646]])),
-                  (n = bmak[_ac[325]](t[_ac[264]][_ac[346]])),
-                  (o = bmak[_ac[325]](t[_ac[264]][_ac[361]])));
+                t.accelaration &&
+                  ((e = bmak.getFloatVal(t.accelaration.x)),
+                  (n = bmak.getFloatVal(t.accelaration.y)),
+                  (o = bmak.getFloatVal(t.accelaration.z)));
                 var m = -1,
                   r = -1,
                   i = -1;
-                t[_ac[425]] &&
-                  ((m = bmak[_ac[325]](t[_ac[425]][_ac[646]])),
-                  (r = bmak[_ac[325]](t[_ac[425]][_ac[346]])),
-                  (i = bmak[_ac[325]](t[_ac[425]][_ac[361]])));
+                t.accelarationIncludingGravity &&
+                  ((m = bmak.getFloatVal(t.accelarationIncludingGravity.x)),
+                  (r = bmak.getFloatVal(t.accelarationIncludingGravity.y)),
+                  (i = bmak.getFloatVal(t.accelarationIncludingGravity.z)));
                 var c = -1,
                   b = -1,
                   d = 1;
-                t[_ac[298]] &&
-                  ((c = bmak[_ac[325]](t[_ac[298]][_ac[333]])),
-                  (b = bmak[_ac[325]](t[_ac[298]][_ac[693]])),
-                  (d = bmak[_ac[325]](t[_ac[298]][_ac[723]])));
+                t.rotationRate &&
+                  ((c = bmak.getFloatVal(t.rotationRate.alpha)),
+                  (b = bmak.getFloatVal(t.rotationRate.beta)),
+                  (d = bmak.getFloatVal(t.rotationRate.gamma)));
                 var s =
                   bmak.dme_cnt +
                   "," +
@@ -1794,7 +1810,7 @@ var _cf = _cf || [],
                   b +
                   "," +
                   d;
-                void 0 !== t.slice && !1 === t.slice && (s += _ac[602]),
+                void 0 !== t.slice && !1 === t.slice && (s += ",0"),
                   (bmak.dmact = bmak.dmact + s + ";"),
                   (bmak.ta += a),
                   (bmak.dme_vel = bmak.dme_vel + bmak.dme_cnt + a),
@@ -1808,20 +1824,20 @@ var _cf = _cf || [],
                 bmak.pd(!0),
                 (bmak.ce_js_post = 1),
                 bmak.aj_indx_dmact++),
-                bmak[_ac[379]]++;
+                bmak.dma_throttle++;
             } catch (t) {}
           },
           get_type: function (t) {
             return (
-              (t = t[_ac[334]]()),
-              _ac[663] == t ||
-              _ac[348] == t ||
-              _ac[177] == t ||
-              _ac[295] == t ||
-              _ac[532] == t ||
+              (t = t.toLowerCase()),
+              text == t ||
+              search == t ||
+              url == t ||
+              email == t ||
+              tel == t ||
               "number" == t
                 ? 0
-                : _ac[109] == t
+                : password == t
                 ? 1
                 : 2
             );
@@ -1833,26 +1849,26 @@ var _cf = _cf || [],
             for (
               var t = "",
                 a = "",
-                e = document[_ac[718]](_ac[639]),
+                e = document.getElementsByTagName("input"),
                 n = -1,
                 o = 0;
               o < e.length;
               o++
             ) {
               var m = e[o],
-                r = bmak.ab(m.getAttribute(_ac[182])),
-                i = bmak.ab(m.getAttribute(_ac[574])),
-                c = m.getAttribute(_ac[673]),
+                r = bmak.ab(m.getAttribute("name")),
+                i = bmak.ab(m.getAttribute(id)),
+                c = m.getAttribute("required"),
                 b = null == c ? 0 : 1,
-                d = m.getAttribute(_ac[611]),
-                s = null == d ? -1 : bmak[_ac[235]](d),
-                k = m.getAttribute(_ac[484]);
+                d = m.getAttribute("type"),
+                s = null == d ? -1 : bmak.get_type(d),
+                k = m.getAttribute("autocomplete");
               null == k
                 ? (n = -1)
-                : ((k = k[_ac[334]]()),
-                  (n = _ac[217] == k ? 0 : _ac[750] == k ? 1 : 2));
-              var l = m[_ac[409]],
-                u = m[_ac[659]],
+                : ((k = k.toLowerCase()),
+                  (n = "off" == k ? 0 : "on" == k ? 1 : 2));
+              var l = m.defualtValue,
+                u = m.value,
                 _ = 0,
                 f = 0;
               l && 0 != l.length && (f = 1),
@@ -1876,132 +1892,125 @@ var _cf = _cf || [],
                     ";"),
                 (a = a + _ + ";");
             }
-            return (
-              null == bmak[_ac[226]] && (bmak[_ac[226]] = a),
-              (bmak[_ac[16]] = a),
-              t
-            );
+            return null == bmak.ins && (bmak.ins = a), (bmak.cns = a), t;
           },
           startdoadma: function () {
-            0 == bmak[_ac[288]] &&
+            0 == bmak.getStateField &&
               window.addEventListener &&
-              (window.addEventListener(_ac[303], bmak[_ac[67]], !0),
-              window.addEventListener(_ac[118], bmak[_ac[415]], !0),
-              (bmak[_ac[288]] = 1)),
-              (bmak[_ac[726]] = 0),
-              (bmak[_ac[379]] = 0);
+              (window.addEventListener("deviceorientation", cdoa, !0),
+              window.addEventListener("devicemotion", cdma, !0),
+              (bmak.getStateField = 1)),
+              (bmak.doa_throttle = 0),
+              (bmak.dma_throttle = 0);
           },
           updatet: function () {
             return bmak.get_cf_date() - bmak.start_ts;
           },
           htm: function (t) {
-            bmak[_ac[632]](t, 1);
+            bmak.cta(t, 1);
           },
           hts: function (t) {
-            bmak[_ac[632]](t, 2);
+            bmak.cta(t, 2);
           },
           hte: function (t) {
-            bmak[_ac[632]](t, 3);
+            bmak.cta(t, 3);
           },
           htc: function (t) {
-            bmak[_ac[632]](t, 4);
+            bmak.cta(t, 4);
           },
           hmm: function (t) {
-            bmak[_ac[107]](t, 1);
+            bmak.cma(t, 1);
           },
           hc: function (t) {
-            bmak[_ac[107]](t, 2);
+            bmak.cma(t, 2);
           },
           hmd: function (t) {
-            bmak[_ac[107]](t, 3);
+            bmak.cma(t, 3);
           },
           hmu: function (t) {
-            bmak[_ac[107]](t, 4);
+            bmak.cma(t, 4);
           },
           hpd: function (t) {
-            bmak[_ac[358]](t, 3);
+            bmak.cpa(t, 3);
           },
           hpu: function (t) {
-            bmak[_ac[358]](t, 4);
+            bmak.cpa(t, 4);
           },
           hkd: function (t) {
-            bmak[_ac[714]](t, 1);
+            bmak.cka(t, 1);
           },
           hku: function (t) {
-            bmak[_ac[714]](t, 2);
+            bmak.cka(t, 2);
           },
           hkp: function (t) {
-            bmak[_ac[714]](t, 3);
+            bmak.cka(t, 3);
           },
           form_submit: function () {
             try {
-              if ((bmak.bpd(), 0 == bmak[_ac[23]].length)) {
+              if ((bmak.bpd(), 0 == bmak.sdfn.length)) {
                 if (
-                  (document[_ac[139]](_ac[57]) &&
-                    (document[_ac[139]](_ac[57])[_ac[659]] = bmak[_ac[487]]),
-                  void 0 !== document[_ac[610]](_ac[57]))
+                  (document.getElementById("bm-telemetry") &&
+                    (document.getElementById("bm-telemetry").value =
+                      bmak.sensor_data),
+                  void 0 !== document.getElementsByName("bm-telemetry"))
                 )
                   for (
-                    var t = document[_ac[610]](_ac[57]), a = 0;
+                    var t = document.getElementsByName("bm-telemetry"), a = 0;
                     a < t.length;
                     a++
                   )
-                    t[a][_ac[659]] = bmak[_ac[487]];
+                    t[a].value = bmak.sensor_data;
               } else
-                for (var a = 0; a < bmak[_ac[23]].length; a++)
-                  document[_ac[139]](bmak[_ac[23]][a]) &&
-                    (document[_ac[139]](bmak[_ac[23]][a])[_ac[659]] =
-                      bmak[_ac[487]]);
+                for (var a = 0; a < bmak.sdfn.length; a++)
+                  document.getElementById(bmak.sdfn[a]) &&
+                    (document.getElementById(bmak.sdfn[a]).value =
+                      bmak.sensor_data);
             } catch (t) {
-              bmak[_ac[145]](_ac[587] + t + "," + bmak[_ac[487]]);
+              bmak.sd_debug(",s7:" + t + "," + bmak.sensor_data);
             }
           },
           get_telemetry: function () {
-            return bmak.bpd(), bmak[_ac[238]](), bmak[_ac[487]];
+            return bmak.bpd(), bmak.ir(), bmak.sensor_data;
           },
           getdurl: function () {
-            return bmak[_ac[351]]
-              ? document[_ac[743]][_ac[595]](/\\|"/g, "")
-              : "";
+            return bmak.enReadDocUrl ? document.url.replace(/\\|"/g, "") : "";
           },
           x1: function () {
             return Math.floor(16777216 * (1 + Math.random())).toString(36);
           },
           gck: function () {
-            var t =
-              bmak[_ac[550]]() +
-              bmak[_ac[550]]() +
-              bmak[_ac[550]]() +
-              bmak[_ac[550]]();
-            return bmak[_ac[583]](bmak[_ac[194]], t + _ac[613] + bmak.ab(t)), t;
+            var t = bmak.x1() + bmak.x1() + bmak.x1() + bmak.x1();
+            return bmak.set_cookie(bmak.ckie, t + "_" + bmak.ab(t)), t;
           },
           set_cookie: function (t, a) {
-            void 0 !== document[_ac[344]] &&
-              (document[_ac[344]] = t + _ac[132] + a + _ac[352]);
+            void 0 !== document.cookie &&
+              (document.cookie =
+                t +
+                "=" +
+                a +
+                "; path=/; expires=Fri, 01 Feb 2025 08:00:00 GMT;");
           },
           get_cookie: function () {
             var t = 0;
             try {
-              var t = bmak[_ac[457]](bmak[_ac[194]]);
-              t || ((bmak[_ac[86]] = 1), (t = bmak[_ac[608]] ? _ac[42] : 1));
+              var t = bmak.cookie_chk_read(bmak.ckie);
+              t || ((bmak.n_ck = 1), (t = bmak.bm ? 2 : 1));
             } catch (t) {}
             return t;
           },
           cookie_chk_read: function (t) {
-            if (document[_ac[344]])
+            if (document.cookie)
               for (
-                var a = t + _ac[132],
-                  e = document[_ac[344]][_ac[150]](_ac[136]),
-                  n = 0;
+                var a = t + "=", e = document.cookie.split(";"), n = 0;
                 n < e.length;
                 n++
               ) {
                 var o = e[n];
                 if (0 === o.indexOf(a)) {
-                  var m = o[_ac[65]](a.length, o.length);
+                  var m = o.substring(a.length, o.length);
                   if (
-                    -1 != m.indexOf(_ac[493]) ||
-                    -1 != decodeURIComponent(m).indexOf(_ac[493])
+                    -1 != m.indexOf("~") ||
+                    -1 != decodeURIComponent(m).indexOf("~")
                   )
                     return m;
                 }
@@ -2009,26 +2018,26 @@ var _cf = _cf || [],
             return !1;
           },
           bpd: function () {
-            bmak[_ac[145]](_ac[541]);
+            bmak.sd_debug("<bpd>");
             var t = 0;
             try {
               t = bmak.get_cf_date();
-              var a = bmak[_ac[657]](),
-                e = _ac[571];
-              bmak[_ac[194]] && (e = bmak[_ac[753]]());
-              var n = bmak[_ac[58]](),
-                o = window.DeviceOrientationEvent ? _ac[189] : _ac[336],
-                m = window.DeviceMotionEvent ? _ac[311] : _ac[661],
-                r = window.TouchEvent ? _ac[167] : _ac[578],
+              var a = bmak.updatet(),
+                e = 3;
+              bmak.ckie && (e = bmak.get_cookie());
+              var n = bmak.gd(),
+                o = window.DeviceOrientationEvent ? do_en : do_dis,
+                m = window.DeviceMotionEvent ? dm_en : dm_dis,
+                r = window.TouchEvent ? t_en : t_dis,
                 i = o + "," + m + "," + r,
-                c = bmak[_ac[279]](),
-                b = bmak[_ac[237]](),
+                c = bmak.getforminfo(),
+                b = bmak.getdurl(),
                 d = bmak.aj_type + "," + bmak.aj_indx;
-              !bmak[_ac[626]][_ac[339]] &&
+              !bmak.fpcf.fpValCalculated &&
                 (0 == bmak.js_post || bmak.aj_indx > 0) &&
-                bmak[_ac[626]][_ac[152]]();
+                bmak.fpcf.fpVal();
               var s =
-                  bmak[_ac[725]] +
+                  bmak.ke_vel +
                   bmak.me_vel +
                   bmak.doe_vel +
                   bmak.dme_vel +
@@ -2036,46 +2045,46 @@ var _cf = _cf || [],
                   bmak.pe_vel,
                 k = bmak.ff,
                 l = k(80) + k(105) + k(90) + k(116) + k(69),
-                u = bmak[_ac[473]](bmak.start_ts),
+                u = bmak.jrs(bmak.start_ts),
                 _ = bmak.get_cf_date() - bmak.start_ts,
                 f = bmak.pi(bmak.d2 / 6),
-                p = bmak[_ac[294]](),
+                p = bmak.fas(),
                 h = [
-                  bmak[_ac[725]] + 1,
+                  bmak.ke_vel + 1,
                   bmak.me_vel + 32,
                   bmak.te_vel + 32,
                   bmak.doe_vel,
-                  bmak[_ac[59]],
+                  bmak.dme_vel,
                   bmak.pe_vel,
                   s,
                   a,
-                  bmak[_ac[701]],
+                  bmak.init_time,
                   bmak.start_ts,
-                  bmak[_ac[626]][_ac[230]],
+                  bmak.fpcf.td,
                   bmak.d2,
-                  bmak[_ac[2]],
+                  bmak.ke_cnt,
                   bmak.me_cnt,
                   f,
                   bmak.pe_cnt,
                   bmak.te_cnt,
                   _,
                   bmak.ta,
-                  bmak[_ac[86]],
+                  bmak.n_ck,
                   e,
                   bmak.ab(e),
-                  bmak[_ac[626]][_ac[329]],
-                  bmak[_ac[626]][_ac[430]],
+                  bmak.fpcf.rVal,
+                  bmak.fpcf.rCFP,
                   p,
                   l,
                   u[0],
                   u[1],
                 ],
                 v = h.join(","),
-                g = "" + bmak.ab(bmak[_ac[626]][_ac[1]]);
-              bmak[_ac[758]] ? bmak[_ac[268]]() : bmak[_ac[312]](),
+                g = "" + bmak.ab(bmak.fpcf.fpValstr);
+              bmak.firstLoad ? bmak.np() : bmak.csh(),
                 !bmak.hbCalc &&
                   (0 == bmak.js_post || bmak.aj_indx > 0) &&
-                  (bmak[_ac[498]](), bmak[_ac[34]](), (bmak.hbCalc = !0));
+                  (bmak.fm(), bmak.wgl(), (bmak.hbCalc = !0));
               var w = "";
               bmak.hbCalc &&
                 (w =
@@ -2092,117 +2101,120 @@ var _cf = _cf || [],
                   bmak.weh1 +
                   "," +
                   bmak.wl);
-              var y = bmak[_ac[35]](),
-                E = bmak[_ac[434]](),
+              var y = bmak.sed(),
+                E = bmak.mn_get_current_challenges(),
                 S = "",
                 C = "",
                 x = "";
               if (void 0 !== E[1]) {
                 var M = E[1];
-                void 0 !== bmak[_ac[703]][M] && (S = bmak[_ac[703]][M]);
+                void 0 !== bmak.mn_r[M] && (S = bmak.mn_r[M]);
               }
               if (void 0 !== E[2]) {
                 var j = E[2];
-                void 0 !== bmak[_ac[703]][j] && (C = bmak[_ac[703]][j]);
+                void 0 !== bmak.mn_r[j] && (C = bmak.mn_r[j]);
               }
               if (void 0 !== E[3]) {
                 var A = E[3];
-                void 0 !== bmak[_ac[703]][A] && (x = bmak[_ac[703]][A]);
+                void 0 !== bmak.mn_r[A] && (x = bmak.mn_r[A]);
               }
-              (bmak[_ac[487]] =
-                bmak[_ac[376]] +
-                _ac[100] +
+              (bmak.sensor_data =
+                bmak.ver +
+                "-1,2-94,-100" +
                 n +
-                _ac[350] +
+                "-1,2,-94,-101," +
                 i +
-                _ac[363] +
-                bmak[_ac[265]] +
-                _ac[240] +
+                "-1,2,-94,-105," +
+                bmak.informinfo +
+                "-1,2,-94,-102," +
                 c +
-                _ac[22] +
-                bmak[_ac[426]] +
-                _ac[121] +
+                "-1,2,-94,-108," +
+                bmak.kact +
+                "-1,2,-94,-110," +
                 bmak.mact +
-                _ac[277] +
+                cbrt +
                 bmak.tact +
-                _ac[567] +
+                "-1,2,-94,-111," +
                 bmak.doact +
-                _ac[122] +
+                "-1,2,-94,-109," +
                 bmak.dmact +
-                _ac[366] +
+                "-1,2,-94,-114," +
                 bmak.pact +
-                _ac[440] +
+                "-1,2,-94,-103," +
                 bmak.vcact +
-                _ac[609] +
+                "-1,2,-94,-112," +
                 b +
-                _ac[79] +
+                "-1,2,-94,-115," +
                 v +
-                _ac[233] +
+                "-1,2,-94,-106," +
                 d),
-                (bmak[_ac[487]] =
-                  bmak[_ac[487]] +
-                  _ac[488] +
+                (bmak.sensor_data =
+                  bmak.sensor_data +
+                  "-1,2,-94,-119," +
                   bmak.mr +
-                  _ac[33] +
+                  "-1,2,-94,-122," +
                   y +
-                  _ac[285] +
+                  "-1,2,-94,-123," +
                   S +
-                  _ac[315] +
+                  "-1,2,-94,-124," +
                   C +
-                  _ac[477] +
+                  "-1,2,-94,-126," +
                   x +
-                  _ac[215] +
+                  "-1,2,-94,-127," +
                   bmak.nav_perm);
-              var L = 24 ^ bmak.ab(bmak[_ac[487]]);
-              (bmak[_ac[487]] =
-                bmak[_ac[487]] +
-                _ac[592] +
-                bmak[_ac[626]][_ac[1]] +
-                _ac[540] +
+              var L = 24 ^ bmak.ab(bmak.sensor_data);
+              (bmak.sensor_data =
+                bmak.sensor_data +
+                "-1,2,-94,-70," +
+                bmak.fpcf.fpValstr +
+                "-1,2,-94,-80," +
                 g +
-                _ac[137] +
+                "-1,2,-94,-116," +
                 bmak.o9 +
-                _ac[492] +
+                "-1,2,-94,-118," +
                 L +
-                _ac[553] +
+                "-1,2,-94,-129," +
                 w +
-                _ac[125]),
-                bmak[_ac[145]](_ac[515] + bmak[_ac[487]].slice(0, 10));
+                "-1,2,-94,-121,"),
+                bmak.sd_debug(",s1:" + bmak.sensor_data.slice(0, 10));
             } catch (t) {
               var P = "";
               try {
-                t[_ac[656]] && "string" == typeof t[_ac[656]]
-                  ? (P = t[_ac[656]][_ac[595]](/\"/g, _ac[634]))
-                  : "string" == typeof t && (P = t[_ac[595]](/\"/g, _ac[634])),
+                t.stack && "string" == typeof t.stack
+                  ? (P = t.stack.replace(/\"/g, "/'"))
+                  : "string" == typeof t && (P = t.replace(/\"/g, "/'")),
                   (P = P.slice(0, 1000)),
-                  bmak[_ac[145]](_ac[119] + P),
-                  (bmak[_ac[487]] =
-                    bmak[_ac[376]] + _ac[100] + bmak.uar() + _ac[769] + P);
+                  bmak.sd_debug(",s2:" + P),
+                  (bmak.sensor_data =
+                    bmak.ver +
+                    "-1,2,-94,-100," +
+                    bmak.uar() +
+                    "-1,2,-94,-120," +
+                    P);
               } catch (t) {
-                t[_ac[656]] && "string" == typeof t[_ac[656]]
-                  ? (P = t[_ac[656]][_ac[595]](/\"/g, _ac[634]))
-                  : "string" == typeof t && (P = t[_ac[595]](/\"/g, _ac[634])),
+                t.stack && "string" == typeof t.stack
+                  ? (P = t.stack.replace(/\"/g, "/'"))
+                  : "string" == typeof t && (P = t.replace(/\"/g, "/'")),
                   (P = P.slice(0, 1000)),
-                  bmak[_ac[145]](_ac[517] + P),
-                  (bmak[_ac[487]] =
-                    bmak[_ac[376]] + bmak[_ac[487]] + _ac[517] + P);
+                  bmak.sd_debug(",s3:" + P),
+                  (bmak.sensor_data = bmak.ver + bmak.sensor_data + ",s3:" + P);
               }
             }
             try {
-              var T = bmak[_ac[0]](bmak[_ac[575]], bmak[_ac[617]]).slice(0, 16),
+              var T = bmak.od(bmak.cs, bmak.api_public_key).slice(0, 16),
                 F = Math.floor(bmak.get_cf_date() / 36e5),
                 B = bmak.get_cf_date(),
-                D = T + bmak[_ac[0]](F, T) + bmak[_ac[487]];
-              bmak[_ac[487]] =
+                D = T + bmak.od1(F, T) + bmak.sensor_data;
+              bmak.sensor_data =
                 D +
                 ";" +
                 (bmak.get_cf_date() - t) +
                 ";" +
-                bmak[_ac[61]] +
+                bmak.tst +
                 ";" +
                 (bmak.get_cf_date() - B);
             } catch (t) {}
-            bmak[_ac[145]](_ac[461]);
+            bmak.sd_debug("</bpd>");
           },
           od: function (t, a) {
             try {
@@ -2212,9 +2224,9 @@ var _cf = _cf || [],
               if (n > 0) {
                 for (var o = 0; o < t.length; o++) {
                   var m = t.charCodeAt(o),
-                    r = t[_ac[768]](o),
+                    r = t.charAt(o),
                     i = a.charCodeAt(o % n);
-                  (m = bmak[_ac[720]](m, 47, 57, i)),
+                  (m = bmak.rir(m, 47, 57, i)),
                     m != t.charCodeAt(o) && (r = String.fromCharCode(m)),
                     e.push(r);
                 }
@@ -2230,12 +2242,12 @@ var _cf = _cf || [],
           },
           lvc: function (t) {
             try {
-              if (bmak.vc_cnt < bmak[_ac[671]]) {
+              if (bmak.vc_cnt < bmak.vc_cnt_lmt) {
                 var a = bmak.get_cf_date() - bmak.start_ts,
                   e = t + "," + a + ";";
                 bmak.vcact = bmak.vcact + e;
               }
-              bmak[_ac[616]]++;
+              bmak.vc_cnt++;
             } catch (t) {}
           },
           hvc: function () {
@@ -2307,9 +2319,9 @@ var _cf = _cf || [],
                   document[_ac[675]](_ac[579], bmak[_ac[83]]),
                   document[_ac[675]](_ac[364], bmak[_ac[654]])),
               bmak[_ac[533]](),
-              (bmak[_ac[265]] = bmak[_ac[279]]()),
+              (bmak.informinfo = bmak.getforminfo()),
               bmak.js_post && ((bmak.aj_type = 0), bmak.bpd(), bmak.pd(!0)),
-              (bmak[_ac[758]] = !1);
+              (bmak.firstLoad = !1);
           },
           gb: function (t, a) {
             var e = t.charCodeAt(a);
@@ -2339,30 +2351,20 @@ var _cf = _cf || [],
                 (m = ((3 & a) << 4) + (e >> 4)),
                 (r = ((15 & e) << 2) + (n >> 6)),
                 (i = 63 & n),
-                (b =
-                  b +
-                  c[_ac[768]](o) +
-                  c[_ac[768]](m) +
-                  c[_ac[768]](r) +
-                  c[_ac[768]](i));
+                (b = b + c.charAt(o) + c.charAt(m) + c.charAt(r) + c.charAt(i));
             return (
               t.length % 3 == 1 &&
                 ((a = bmak[_ac[576]](t, s)),
                 (o = a >> 2),
                 (m = (3 & a) << 4),
-                (b = b + c[_ac[768]](o) + c[_ac[768]](m) + _ac[444])),
+                (b = b + c.charAt(o) + c.charAt(m) + _ac[444])),
               t.length % 3 == 2 &&
                 ((a = bmak[_ac[576]](t, s)),
                 (e = bmak[_ac[576]](t, s + 1)),
                 (o = a >> 2),
                 (m = ((3 & a) << 4) + (e >> 4)),
                 (r = (15 & e) << 2),
-                (b =
-                  b +
-                  c[_ac[768]](o) +
-                  c[_ac[768]](m) +
-                  c[_ac[768]](r) +
-                  _ac[132])),
+                (b = b + c.charAt(o) + c.charAt(m) + c.charAt(r) + "=")),
               b
             );
           },
@@ -2372,7 +2374,7 @@ var _cf = _cf || [],
                 "string" == typeof navigator[_ac[637]] &&
                 -1 != navigator[_ac[637]].indexOf(_ac[420])
               ) {
-                if (parseFloat(navigator[_ac[637]][_ac[150]](_ac[420])[1]) <= 9)
+                if (parseFloat(navigator[_ac[637]].split(_ac[420])[1]) <= 9)
                   return !0;
               }
             } catch (t) {}
@@ -2404,7 +2406,7 @@ var _cf = _cf || [],
               ? new XMLHttpRequest()
               : new ActiveXObject(_ac[91])),
               e[_ac[594]](_ac[404], t, a);
-            var n = bmak[_ac[510]](bmak[_ac[617]] + _ac[667]);
+            var n = bmak[_ac[510]](bmak.api_public_key + ":");
             (bmak[_ac[772]] = _ac[343] + n + _ac[272]),
               e[_ac[75]] &&
                 (e[_ac[75]](_ac[502], _ac[398]),
@@ -2414,7 +2416,7 @@ var _cf = _cf || [],
               _ac[355] +
               bmak[_ac[739]] +
               _ac[252] +
-              bmak[_ac[487]] +
+              bmak.sensor_data +
               _ac[272] +
               bmak[_ac[772]] +
               _ac[652];
@@ -2433,7 +2435,7 @@ var _cf = _cf || [],
               : (n = new ActiveXObject(_ac[91])),
               n[_ac[594]](_ac[404], t, a),
               void 0 !== n[_ac[19]] && (n[_ac[19]] = !0);
-            var o = _ac[551] + bmak[_ac[487]] + _ac[628];
+            var o = _ac[551] + bmak.sensor_data + _ac[628];
             (n[_ac[650]] = function () {
               n[_ac[171]] > 3 && e && e(n);
             }),
@@ -2451,18 +2453,16 @@ var _cf = _cf || [],
           check_stop_protocol: function () {
             var t = bmak[_ac[736]](),
               a = t[0];
-            !bmak[_ac[534]] &&
-              a > -1 &&
-              (bmak[_ac[238]](), (bmak[_ac[534]] = !0));
+            !bmak[_ac[534]] && a > -1 && (bmak.ir(), (bmak[_ac[534]] = !0));
             var e = t[1];
             return -1 == e || bmak.aj_ss < e;
           },
           get_stop_signals: function () {
             var t = [-1, -1],
-              a = bmak[_ac[457]](bmak[_ac[194]]);
+              a = bmak.cookie_chk_read(bmak.ckie);
             if (!1 !== a)
               try {
-                var e = decodeURIComponent(a)[_ac[150]](_ac[493]);
+                var e = decodeURIComponent(a).split("~");
                 if (e.length >= 4) {
                   var n = bmak.pi(e[1]),
                     o = bmak.pi(e[3]);
@@ -2479,17 +2479,17 @@ var _cf = _cf || [],
           get_mn_params_from_abck: function () {
             var t = [[]];
             try {
-              var a = bmak[_ac[457]](bmak[_ac[194]]);
+              var a = bmak.cookie_chk_read(bmak.ckie);
               if (!1 !== a) {
-                var e = decodeURIComponent(a)[_ac[150]](_ac[493]);
+                var e = decodeURIComponent(a).split("~");
                 if (e.length >= 5) {
                   var n = e[0],
                     o = e[4],
-                    m = o[_ac[150]](_ac[399]);
+                    m = o.split(_ac[399]);
                   if (m.length > 0)
                     for (var r = 0; r < m.length; r++) {
                       var i = m[r],
-                        c = i[_ac[150]](_ac[206]);
+                        c = i.split(_ac[206]);
                       if (c.length >= 5) {
                         var b = bmak.pi(c[0]),
                           d = c[1],
@@ -2797,7 +2797,7 @@ var _cf = _cf || [],
               ) {
                 n = Math.random().toString(16);
                 var r = bmak[_ac[543]] + m.toString() + n,
-                  i = bmak[_ac[202]](r);
+                  i = bmak.mn_s(r);
                 if (0 == bmak[_ac[170]](i, m))
                   (t = 1),
                     (e = bmak.get_cf_date() - o),
@@ -2834,7 +2834,7 @@ var _cf = _cf || [],
                     (bmak[_ac[598]] = 0),
                     bmak[_ac[683]].push(bmak[_ac[87]]),
                     bmak[_ac[683]].push(bmak.get_cf_date()),
-                    (bmak[_ac[703]][bmak[_ac[70]] + bmak[_ac[685]]] = bmak[
+                    (bmak.mn_r[bmak[_ac[70]] + bmak[_ac[685]]] = bmak[
                       _ac[539]
                     ]()),
                     bmak.js_post &&
@@ -2843,7 +2843,7 @@ var _cf = _cf || [],
                       bmak.bpd(),
                       bmak.pd(!0)));
             } catch (t) {
-              bmak[_ac[145]](_ac[345] + t);
+              bmak.sd_debug(_ac[345] + t);
             }
           },
           mn_pr: function () {
@@ -2867,24 +2867,24 @@ var _cf = _cf || [],
             return a;
           },
           calc_fp: function () {
-            bmak[_ac[626]][_ac[152]](),
+            bmak.fpcf.fpVal(),
               bmak.js_post && ((bmak.aj_type = 9), bmak.bpd(), bmak.pd(!0));
           },
           listFunctions: {
             _setJsPost: function (t) {
-              (bmak.js_post = t), bmak.js_post && (bmak[_ac[351]] = 1);
+              (bmak.js_post = t), bmak.js_post && (bmak.enReadDocUrl = 1);
             },
             _setSessionId: function (t) {
               bmak[_ac[739]] = t;
             },
             _setJavaScriptKey: function (t) {
-              bmak[_ac[617]] = t;
+              bmak.api_public_key = t;
             },
             _setEnAddHidden: function (t) {
               bmak[_ac[700]] = t;
             },
             _setInitTime: function (t) {
-              bmak[_ac[701]] = t;
+              bmak.init_time = t;
             },
             _setApiUrl: function (t) {
               bmak[_ac[689]] = t;
@@ -2893,28 +2893,28 @@ var _cf = _cf || [],
               bmak[_ac[78]] = t;
             },
             _setEnReadDocUrl: function (t) {
-              bmak[_ac[351]] = t;
+              bmak.enReadDocUrl = t;
             },
             _setDisFpCalOnTimeout: function (t) {
               bmak[_ac[476]] = t;
             },
             _setCookie: function (t) {
-              bmak[_ac[194]] = t;
+              bmak.ckie = t;
             },
             _setCS: function (t) {
-              bmak[_ac[575]] = (String(t) + bmak[_ac[575]]).slice(0, 16);
+              bmak.cs = (String(t) + bmak.cs).slice(0, 16);
             },
             _setFsp: function (t) {
               (bmak[_ac[305]] = t),
                 bmak[_ac[305]] &&
-                  (bmak[_ac[689]] = bmak[_ac[689]][_ac[595]](
+                  (bmak[_ac[689]] = bmak[_ac[689]].replace(
                     /^http:\/\//i,
                     _ac[478]
                   ));
             },
             _setBm: function (t) {
-              (bmak[_ac[608]] = t),
-                bmak[_ac[608]]
+              (bmak.bm = t),
+                bmak.bm
                   ? ((bmak[_ac[689]] =
                       (bmak[_ac[305]]
                         ? _ac[45]
@@ -2947,9 +2947,9 @@ var _cf = _cf || [],
               try {
                 var t;
                 for (t = 0; t < arguments.length; t += 1)
-                  bmak[_ac[23]].push(arguments[t]);
+                  bmak.sdfn.push(arguments[t]);
               } catch (t) {
-                bmak[_ac[145]](_ac[60] + t);
+                bmak.sd_debug(_ac[60] + t);
               }
             },
             _setUseAltFonts: function (t) {
@@ -2974,7 +2974,7 @@ var _cf = _cf || [],
           },
           getStateField: function (t) {
             for (
-              var a = "", e = _ac[604], n = 0, o = t[_ac[334]]();
+              var a = "", e = _ac[604], n = 0, o = t.toLowerCase();
               n < o.length;
 
             )
@@ -2988,7 +2988,7 @@ var _cf = _cf || [],
 if (
   ((function (t) {
     var a = {};
-    (t[_ac[626]] = a),
+    (t.fpcf = a),
       (a[_ac[620]] = function () {
         var t = bmak.uar();
         return !(
@@ -3000,24 +3000,24 @@ if (
           )
         );
       }),
-      (a[_ac[1]] = _ac[636]),
-      (a[_ac[339]] = !1),
-      (a[_ac[329]] = _ac[636]),
-      (a[_ac[430]] = _ac[636]),
+      (a.fpValstr = _ac[636]),
+      (a.fpValCalculated = !1),
+      (a.rVal = _ac[636]),
+      (a.rCFP = _ac[636]),
       (a[_ac[209]] = {}),
-      (a[_ac[230]] = -999999),
+      (a.td = -999999),
       (a[_ac[513]] = function () {
         a[_ac[209]] = {};
       }),
-      (a[_ac[152]] = function () {
-        a[_ac[339]] = !0;
+      (a.fpVal = function () {
+        a.fpValCalculated = !0;
         try {
           var t = 0;
           t = Date.now ? Date.now() : +new Date();
           var e = a[_ac[306]]();
-          a[_ac[1]] = e[_ac[595]](/\"/g, _ac[322]);
+          a.fpValstr = e.replace(/\"/g, _ac[322]);
           var n = 0;
-          (n = Date.now ? Date.now() : +new Date()), (a[_ac[230]] = n - t);
+          (n = Date.now ? Date.now() : +new Date()), (a.td = n - t);
         } catch (t) {}
       }),
       (a[_ac[166]] = function () {
@@ -3094,14 +3094,14 @@ if (
           if (void 0 !== a[_ac[209]][_ac[96]]) return a[_ac[209]][_ac[96]];
           var e = -1;
           if (!a[_ac[620]]()) {
-            var n = document[_ac[615]](_ac[96]);
+            var n = document.createElement(_ac[96]);
             if (
               ((n[_ac[561]] = 280),
               (n[_ac[745]] = 60),
-              (n[_ac[419]][_ac[691]] = _ac[153]),
-              "function" == typeof n[_ac[631]])
+              (n.style[_ac[691]] = _ac[153]),
+              "function" == typeof n.getContext)
             ) {
-              var o = n[_ac[631]](_ac[719]);
+              var o = n.getContext(_ac[719]);
               (o[_ac[588]] = _ac[386]),
                 o[_ac[494]](100, 5, 80, 50),
                 (o[_ac[588]] = _ac[633]),
@@ -3116,16 +3116,16 @@ if (
                 (e = (e << 5) - e + m.charCodeAt(r)), (e &= e);
               }
               e = e.toString();
-              var i = document[_ac[615]](_ac[96]);
+              var i = document.createElement(_ac[96]);
               (i[_ac[561]] = 16), (i[_ac[745]] = 16);
-              var c = i[_ac[631]](_ac[719]);
+              var c = i.getContext(_ac[719]);
               (c[_ac[749]] = _ac[124]),
-                (a[_ac[329]] = Math.floor(1000 * Math.random())[_ac[242]]()),
-                c[_ac[483]](a[_ac[329]], 1, 12);
+                (a.rVal = Math.floor(1000 * Math.random())[_ac[242]]()),
+                c[_ac[483]](a.rVal, 1, 12);
               for (var b = i[_ac[43]](), d = 0, s = 0; s < b.length; s++) {
                 (d = (d << 5) - d + b.charCodeAt(s)), (d &= d);
               }
-              a[_ac[430]] = d.toString();
+              a.rCFP = d.toString();
             }
           }
           return e;
@@ -3141,19 +3141,21 @@ if (
           var o = [_ac[229], _ac[759]],
             m = [0, 0],
             r = [0, 0],
-            i = document[_ac[615]](_ac[36]);
-          i[_ac[419]][_ac[374]] = _ac[371];
+            i = document.createElement(_ac[36]);
+          i.style[_ac[374]] = _ac[371];
           var c;
           for (c = 0; c < o.length; c++) {
-            var b = document[_ac[615]](_ac[572]);
-            (b[_ac[670]] = _ac[635]),
-              (b[_ac[419]][_ac[274]] = _ac[760]),
-              (b[_ac[419]][_ac[423]] = o[c]),
-              i[_ac[210]](b);
+            var b = document.createElement("span");
+            (b.innerHTML = _ac[635]),
+              (b.style.fontSize = _ac[760]),
+              (b.style.fontFamily = o[c]),
+              i.appendChild(b);
           }
-          for (document.body[_ac[210]](i), c = 0; c < i[_ac[506]].length; c++)
-            (b = i[_ac[506]][c]), (m[c] = b[_ac[207]]), (r[c] = b[_ac[468]]);
-          if ((document.body[_ac[273]](i), bmak.get_cf_date() - e > t))
+          for (document.body.appendChild(i), c = 0; c < i[_ac[506]].length; c++)
+            (b = i[_ac[506]][c]),
+              (m[c] = b.offsetWidth),
+              (r[c] = b.offsetHeight);
+          if ((document.body.removeChild(i), bmak.get_cf_date() - e > t))
             return "";
           var d = [
               _ac[239],
@@ -3202,34 +3204,34 @@ if (
               _ac[580],
               _ac[69],
             ],
-            s = document[_ac[615]](_ac[36]);
-          s[_ac[419]][_ac[374]] = _ac[371];
+            s = document.createElement(_ac[36]);
+          s.style[_ac[374]] = _ac[371];
           for (var k = [], l = 0; l < d.length; l++) {
-            var u = document[_ac[615]](_ac[36]);
+            var u = document.createElement(_ac[36]);
             for (c = 0; c < o.length; c++) {
-              var b = document[_ac[615]](_ac[572]);
-              (b[_ac[670]] = _ac[635]),
-                (b[_ac[419]][_ac[274]] = _ac[760]),
-                (b[_ac[419]][_ac[423]] = d[l] + "," + o[c]),
-                u[_ac[210]](b);
+              var b = document.createElement("span");
+              (b.innerHTML = _ac[635]),
+                (b.style.fontSize = _ac[760]),
+                (b.style.fontFamily = d[l] + "," + o[c]),
+                u.appendChild(b);
             }
-            s[_ac[210]](u);
+            s.appendChild(u);
           }
           if (bmak.get_cf_date() - e > t) return "";
-          document.body[_ac[210]](s);
+          document.body.appendChild(s);
           for (var l = 0; l < s[_ac[506]].length; l++) {
             var _ = !1,
               u = s[_ac[506]][l];
             for (c = 0; c < u[_ac[506]].length; c++) {
               var b = u[_ac[506]][c];
-              if (b[_ac[207]] !== m[c] || b[_ac[468]] !== r[c]) {
+              if (b.offsetWidth !== m[c] || b.offsetHeight !== r[c]) {
                 _ = !0;
                 break;
               }
             }
             if ((_ && k.push(l), bmak.get_cf_date() - e > t)) break;
           }
-          document.body[_ac[273]](s), (n = k[_ac[27]]());
+          document.body.removeChild(s), (n = k.sort());
         }
         return n.join(",");
       }),
@@ -3239,15 +3241,15 @@ if (
           var e = [_ac[146], _ac[229], _ac[759]],
             n = [0, 0, 0],
             o = [0, 0, 0],
-            m = document[_ac[615]](_ac[572]);
-          (m[_ac[670]] = _ac[635]), (m[_ac[419]][_ac[274]] = _ac[760]);
+            m = document.createElement("span");
+          (m.innerHTML = _ac[635]), (m.style.fontSize = _ac[760]);
           var r;
           for (r = 0; r < e.length; r++)
-            (m[_ac[419]][_ac[423]] = e[r]),
-              document.body[_ac[210]](m),
-              (n[r] = m[_ac[207]]),
-              (o[r] = m[_ac[468]]),
-              document.body[_ac[273]](m);
+            (m.style.fontFamily = e[r]),
+              document.body.appendChild(m),
+              (n[r] = m.offsetWidth),
+              (o[r] = m.offsetHeight),
+              document.body.removeChild(m);
           for (
             var i = [
                 _ac[239],
@@ -3304,17 +3306,17 @@ if (
             var d = !1;
             for (r = 0; r < e.length; r++)
               if (
-                ((m[_ac[419]][_ac[423]] = i[b] + "," + e[r]),
-                document.body[_ac[210]](m),
-                (m[_ac[207]] === n[r] && m[_ac[468]] === o[r]) || (d = !0),
-                document.body[_ac[273]](m),
+                ((m.style.fontFamily = i[b] + "," + e[r]),
+                document.body.appendChild(m),
+                (m.offsetWidth === n[r] && m.offsetHeight === o[r]) || (d = !0),
+                document.body.removeChild(m),
                 d)
               ) {
                 c.push(b);
                 break;
               }
           }
-          t = c[_ac[27]]();
+          t = c.sort();
         }
         return t.join(",");
       }),
@@ -3352,28 +3354,28 @@ if (
         return !!window[_ac[531]];
       });
   })(bmak),
-  bmak[_ac[758]])
+  bmak.firstLoad)
 ) {
-  if ((bmak[_ac[145]](_ac[728]), _cf.length > 0)) {
+  if ((bmak.sd_debug(_ac[728]), _cf.length > 0)) {
     for (var bm_counter = 0; bm_counter < _cf.length; bm_counter++)
       bmak[_ac[521]](_cf[bm_counter]);
-    bmak[_ac[145]](_ac[377] + bmak[_ac[23]].join() + _ac[443]),
+    bmak.sd_debug(_ac[377] + bmak.sdfn.join() + _ac[443]),
       (_cf = {
         push: bmak[_ac[521]],
       });
   } else {
     var bm_script;
     if ((document[_ac[732]] && (bm_script = document[_ac[732]]), !bm_script)) {
-      var scripts = document[_ac[718]](_ac[185]);
+      var scripts = document.getElementsByTagName(_ac[185]);
       scripts.length && (bm_script = scripts[scripts.length - 1]);
     }
     if (bm_script[_ac[126]]) {
       var bm_url = bm_script[_ac[126]],
-        url_split = bm_url[_ac[150]](_ac[220]),
+        url_split = bm_url.split(_ac[220]),
         obfus_state_field;
       if (
         (url_split.length >= 4 &&
-          (obfus_state_field = bm_url[_ac[150]](_ac[220]).slice(-4)[0]),
+          (obfus_state_field = bm_url.split(_ac[220]).slice(-4)[0]),
         obfus_state_field && obfus_state_field.length % 2 == 0)
       ) {
         var state_field_str = bmak[_ac[228]](obfus_state_field);
@@ -3386,10 +3388,10 @@ if (
     }
   }
   try {
-    bmak[_ac[238]](),
+    bmak.ir(),
       (bmak[_ac[564]] = bmak.get_cf_date()),
       bmak[_ac[110]](),
-      (bmak[_ac[61]] = bmak.get_cf_date() - bmak[_ac[564]]),
+      (bmak.tst = bmak.get_cf_date() - bmak[_ac[564]]),
       bmak[_ac[476]] || setTimeout(bmak[_ac[638]], 500);
     for (var bm_counter = 0; bm_counter < 3; bm_counter++)
       setTimeout(bmak[_ac[105]], 400 + 5e3 * bm_counter);
