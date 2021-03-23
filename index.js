@@ -2489,11 +2489,11 @@ var _cf = _cf || [],
                 if (e.length >= 5) {
                   var n = e[0],
                     o = e[4],
-                    m = o.split(_ac[399]);
+                    m = o.split("||");
                   if (m.length > 0)
                     for (var r = 0; r < m.length; r++) {
                       var i = m[r],
-                        c = i.split(_ac[206]);
+                        c = i.split("-");
                       if (c.length >= 5) {
                         var b = bmak.pi(c[0]),
                           d = c[1],
@@ -2503,7 +2503,7 @@ var _cf = _cf || [],
                           u = 1;
                         c.length >= 6 && (u = bmak.pi(c[5]));
                         var _ = [b, n, d, s, k, l, u];
-                        2 == u ? t[_ac[247]](0, 0, _) : t.push(_);
+                        2 == u ? t.splice(0, 0, _) : t.push(_);
                       }
                     }
                 }
@@ -2512,7 +2512,7 @@ var _cf = _cf || [],
             return t;
           },
           mn_get_current_challenges: function () {
-            var t = bmak[_ac[246]](),
+            var t = bmak.get_mn_params_from_abck(),
               a = [];
             if (null != t)
               for (var e = 0; e < t.length; e++) {
@@ -2526,15 +2526,15 @@ var _cf = _cf || [],
             return a;
           },
           mn_update_challenge_details: function (t) {
-            (bmak[_ac[442]] = t[0]),
-              (bmak[_ac[70]] = t[1]),
-              (bmak[_ac[685]] = t[2]),
-              (bmak[_ac[178]] = t[3]),
-              (bmak[_ac[46]] = t[4]),
-              (bmak[_ac[470]] = t[5]),
-              (bmak[_ac[648]] = t[6]),
-              (bmak[_ac[746]] = bmak.start_ts),
-              (bmak[_ac[543]] = bmak[_ac[70]] + bmak.start_ts + bmak[_ac[685]]);
+            (bmak.mn_sen = t[0]),
+              (bmak.mn_abck = t[1]),
+              (bmak.mn_psn = t[2]),
+              (bmak.mn_cd = t[3]),
+              (bmak.mn_tout = t[4]),
+              (bmak.mn_stout = t[5]),
+              (bmak.mn_ct = t[6]),
+              (bmak.mn_ts = bmak.start_ts),
+              (bmak.mn_cc = bmak.mn_abck + bmak.start_ts + bmak.mn_psn);
           },
           mn_get_new_challenge_params: function (t) {
             var a = null,
@@ -2546,41 +2546,41 @@ var _cf = _cf || [],
                 if (m.length > 0) {
                   for (
                     var r = m[0],
-                      i = bmak[_ac[70]] + bmak.start_ts + m[2],
+                      i = bmak.mn_abck + bmak.start_ts + m[2],
                       c = (m[3], m[6]),
                       b = 0;
-                    b < bmak[_ac[38]] && 1 == r && bmak[_ac[144]][b] != i;
+                    b < bmak.mn_lcl && 1 == r && bmak.mn_lc[b] != i;
                     b++
                   );
-                  b == bmak[_ac[38]] &&
+                  b == bmak.mn_lcl &&
                     ((a = o), 2 == c && (e = o), 3 == c && (n = o));
                 }
               }
-            return null != n && bmak[_ac[394]]
+            return null != n && bmak.pstate
               ? t[n]
-              : null == e || bmak[_ac[394]]
-              ? null == a || bmak[_ac[394]]
+              : null == e || bmak.pstate
+              ? null == a || bmak.pstate
                 ? null
                 : t[a]
               : t[e];
           },
           mn_poll: function () {
-            if (0 == bmak[_ac[598]]) {
-              var t = bmak[_ac[246]](),
-                a = bmak[_ac[612]](t);
+            if (0 == bmak.mn_state) {
+              var t = bmak.get_mn_params_from_abck(),
+                a = bmak.mn_get_new_challenge_params(t);
               null != a &&
-                (bmak[_ac[163]](a),
-                bmak[_ac[442]] &&
-                  ((bmak[_ac[598]] = 1),
-                  (bmak[_ac[655]] = 0),
-                  (bmak[_ac[156]] = []),
-                  (bmak[_ac[490]] = []),
-                  (bmak[_ac[505]] = []),
-                  (bmak[_ac[683]] = []),
-                  (bmak[_ac[104]] = bmak.get_cf_date()),
-                  (bmak[_ac[762]] = bmak[_ac[104]] - bmak.start_ts),
-                  (bmak[_ac[87]] = 0),
-                  setTimeout(bmak[_ac[624]], bmak[_ac[46]])));
+                (bmak.mn_update_challenge_details(a),
+                bmak.mn_sen &&
+                  ((bmak.mn_state = 1),
+                  (bmak.mn_mc_indx = 0),
+                  (bmak.mn_al = []),
+                  (bmak.mn_il = []),
+                  (bmak.mn_tcl = []),
+                  (bmak.mn_lg = []),
+                  (bmak.mn_rts = bmak.get_cf_date()),
+                  (bmak.mn_rt = bmak.mn_rts - bmak.start_ts),
+                  (bmak.mn_wt = 0),
+                  setTimeout(bmak.mn_w, bmak.mn_tout)));
             }
           },
           rotate_right: function (t, a) {
@@ -2664,12 +2664,12 @@ var _cf = _cf || [],
               i = 2600822924,
               c = 528734635,
               b = 1541459225,
-              d = bmak[_ac[3]](t),
+              d = bmak.encode_utf8(t),
               s = 8 * d.length;
             d += String.fromCharCode(128);
             for (
               var k = d.length / 4 + 2,
-                l = Math[_ac[318]](k / 16),
+                l = Math.ceil(k / 16),
                 u = new Array(l),
                 _ = 0;
               _ < l;
@@ -2705,24 +2705,24 @@ var _cf = _cf || [],
                 _ < 16
                   ? (g[_] = u[h][_])
                   : ((j =
-                      bmak[_ac[754]](g[_ - 15], 7) ^
-                      bmak[_ac[754]](g[_ - 15], 18) ^
+                      bmak.rotate_right(g[_ - 15], 7) ^
+                      bmak.rotate_right(g[_ - 15], 18) ^
                       (g[_ - 15] >>> 3)),
                     (A =
-                      bmak[_ac[754]](g[_ - 2], 17) ^
-                      bmak[_ac[754]](g[_ - 2], 19) ^
+                      bmak.rotate_right(g[_ - 2], 17) ^
+                      bmak.rotate_right(g[_ - 2], 19) ^
                       (g[_ - 2] >>> 10)),
                     (g[_] = g[_ - 16] + j + g[_ - 7] + A)),
                   (A =
-                    bmak[_ac[754]](C, 6) ^
-                    bmak[_ac[754]](C, 11) ^
-                    bmak[_ac[754]](C, 25)),
+                    bmak.rotate_right(C, 6) ^
+                    bmak.rotate_right(C, 11) ^
+                    bmak.rotate_right(C, 25)),
                   (L = (C & v) ^ (~C & x)),
                   (P = M + A + L + a[_] + g[_]),
                   (j =
-                    bmak[_ac[754]](w, 2) ^
-                    bmak[_ac[754]](w, 13) ^
-                    bmak[_ac[754]](w, 22)),
+                    bmak.rotate_right(w, 2) ^
+                    bmak.rotate_right(w, 13) ^
+                    bmak.rotate_right(w, 22)),
                   (T = (w & y) ^ (w & E) ^ (y & E)),
                   (F = j + T),
                   (M = x),
@@ -2780,7 +2780,7 @@ var _cf = _cf || [],
           },
           mn_init: function () {
             var t = 200;
-            bmak[_ac[394]] && (t = 100), setInterval(bmak[_ac[766]], t);
+            bmak.pstate && (t = 100), setInterval(bmak.mn_poll, t);
           },
           bdm: function (t, a) {
             for (var e = 0, n = 0; n < t.length; ++n)
@@ -2795,70 +2795,67 @@ var _cf = _cf || [],
                   e = 0,
                   n = "",
                   o = bmak.get_cf_date(),
-                  m = bmak[_ac[178]] + bmak[_ac[655]];
+                  m = bmak.mn_cd + bmak.mn_mc_indx;
                 0 == t;
 
               ) {
                 n = Math.random().toString(16);
-                var r = bmak[_ac[543]] + m.toString() + n,
+                var r = bmak.mn_cc + m.toString() + n,
                   i = bmak.mn_s(r);
-                if (0 == bmak[_ac[170]](i, m))
+                if (0 == bmak.bdm(i, m))
                   (t = 1),
                     (e = bmak.get_cf_date() - o),
-                    bmak[_ac[156]].push(n),
-                    bmak[_ac[505]].push(e),
-                    bmak[_ac[490]].push(a),
-                    0 == bmak[_ac[655]] &&
-                      (bmak[_ac[683]].push(bmak[_ac[70]]),
-                      bmak[_ac[683]].push(bmak[_ac[746]]),
-                      bmak[_ac[683]].push(bmak[_ac[685]]),
-                      bmak[_ac[683]].push(bmak[_ac[543]]),
-                      bmak[_ac[683]].push(bmak[_ac[178]].toString()),
-                      bmak[_ac[683]].push(m.toString()),
-                      bmak[_ac[683]].push(n),
-                      bmak[_ac[683]].push(r),
-                      bmak[_ac[683]].push(i),
-                      bmak[_ac[683]].push(bmak[_ac[762]]));
+                    bmak.mn_al.push(n),
+                    bmak.mn_tcl.push(e),
+                    bmak.mn_il.push(a),
+                    0 == bmak.mn_mc_indx &&
+                      (bmak.mn_lg.push(bmak.mn_abck),
+                      bmak.mn_lg.push(bmak.mn_ts),
+                      bmak.mn_lg.push(bmak.mn_psn),
+                      bmak.mn_lg.push(bmak.mn_cc),
+                      bmak.mn_lg.push(bmak.mn_cd.toString()),
+                      bmak.mn_lg.push(m.toString()),
+                      bmak.mn_lg.push(n),
+                      bmak.mn_lg.push(r),
+                      bmak.mn_lg.push(i),
+                      bmak.mn_lg.push(bmak.mn_rt));
                 else if (
                   (a += 1) % 1000 == 0 &&
-                  (e = bmak.get_cf_date() - o) > bmak[_ac[470]]
+                  (e = bmak.get_cf_date() - o) > bmak.mn_stout
                 )
                   return (
-                    (bmak[_ac[87]] += e),
-                    void setTimeout(bmak[_ac[624]], bmak[_ac[470]])
+                    (bmak.mn_wt += e), void setTimeout(bmak.mn_w, bmak.mn_stout)
                   );
               }
-              (bmak[_ac[655]] += 1),
-                bmak[_ac[655]] < bmak[_ac[395]]
-                  ? setTimeout(bmak[_ac[624]], e)
-                  : ((bmak[_ac[655]] = 0),
-                    (bmak[_ac[144]][bmak[_ac[38]]] = bmak[_ac[543]]),
-                    (bmak[_ac[519]][bmak[_ac[38]]] = bmak[_ac[178]]),
-                    (bmak[_ac[38]] = bmak[_ac[38]] + 1),
-                    (bmak[_ac[598]] = 0),
-                    bmak[_ac[683]].push(bmak[_ac[87]]),
-                    bmak[_ac[683]].push(bmak.get_cf_date()),
-                    (bmak.mn_r[bmak[_ac[70]] + bmak[_ac[685]]] = bmak[
-                      _ac[539]
-                    ]()),
+              (bmak.mn_mc_indx += 1),
+                bmak.mn_mc_indx < bmak.mn_mc_lmt
+                  ? setTimeout(bmak.mn_w, e)
+                  : ((bmak.mn_mc_indx = 0),
+                    (bmak.mn_lc[bmak.mn_lcl] = bmak.mn_cc),
+                    (bmak.mn_ld[bmak.mn_lcl] = bmak.mn_cd),
+                    (bmak.mn_lcl = bmak.mn_lcl + 1),
+                    (bmak.mn_state = 0),
+                    bmak.mn_lg.push(bmak.mn_wt),
+                    bmak.mn_lg.push(bmak.get_cf_date()),
+                    (bmak.mn_r[bmak.mn_abck + bmak.mn_psn] = bmak.weh()),
                     bmak.js_post &&
                       ((bmak.aj_type = 8),
-                      2 == bmak[_ac[648]] && (bmak.dcs = 1),
+                      2 == bmak.mn_ct && (bmak.dcs = 1),
                       bmak.bpd(),
                       bmak.pd(!0)));
             } catch (t) {
-              bmak.sd_debug(_ac[345] + t);
+              bmak.sd_debug(",mn_w" + t);
             }
           },
           mn_pr: function () {
             return (
-              bmak[_ac[156]].join(",") +
+              bmak.mn_al.join(",") +
               ";" +
-              bmak[_ac[505]].join(",") +
+              bmak.mn_tcl.join(",") +
               ";" +
-              bmak[_ac[490]].join(",") +
+              bmak.mn_il.join(",") +
               ";" +
-              bmak[_ac[683]].join(",") +
+              bmak.mn_lg.join(",") +
               ";"
             );
           },
@@ -2885,7 +2882,7 @@ var _cf = _cf || [],
               bmak.api_public_key = t;
             },
             _setEnAddHidden: function (t) {
-              bmak[_ac[700]] = t;
+              bmak.enAddHidden = t;
             },
             _setInitTime: function (t) {
               bmak.init_time = t;
@@ -2894,13 +2891,13 @@ var _cf = _cf || [],
               bmak.cf_url = t;
             },
             _setEnGetLoc: function (t) {
-              bmak[_ac[78]] = t;
+              bmak.enGetLoc = t;
             },
             _setEnReadDocUrl: function (t) {
               bmak.enReadDocUrl = t;
             },
             _setDisFpCalOnTimeout: function (t) {
-              bmak[_ac[476]] = t;
+              bmak.disFpCalOnTimeout = t;
             },
             _setCookie: function (t) {
               bmak.ckie = t;
@@ -2909,38 +2906,35 @@ var _cf = _cf || [],
               bmak.cs = (String(t) + bmak.cs).slice(0, 16);
             },
             _setFsp: function (t) {
-              (bmak[_ac[305]] = t),
-                bmak[_ac[305]] &&
-                  (bmak.cf_url = bmak.cf_url.replace(/^http:\/\//i, _ac[478]));
+              (bmak.fsp = t),
+                bmak.fsp &&
+                  (bmak.cf_url = bmak.cf_url.replace(
+                    /^http:\/\//i,
+                    "https://"
+                  ));
             },
             _setBm: function (t) {
               (bmak.bm = t),
                 bmak.bm
                   ? ((bmak.cf_url =
-                      (bmak[_ac[305]]
-                        ? _ac[45]
-                        : document[_ac[225]][_ac[200]]) +
-                      _ac[141] +
-                      document[_ac[225]][_ac[651]] +
-                      _ac[323]),
+                      (bmak.fsp ? "https:" : document.hpu.protocol) +
+                      "//" +
+                      document.hpu.hostname +
+                      "/_bm/_data"),
                     (bmak.js_post = !0))
                   : (bmak.params_url =
-                      (bmak[_ac[305]]
-                        ? _ac[45]
-                        : document[_ac[225]][_ac[200]]) +
-                      _ac[141] +
-                      document[_ac[225]][_ac[651]] +
-                      _ac[85]);
+                      (bmak.fsp ? "https:" : document.hpu.protocol) +
+                      "//" +
+                      document.hpu.hostname +
+                      "/get_params");
             },
             _setAu: function (t) {
               "string" == typeof t &&
-                (0 === t[_ac[260]](_ac[220], 0)
+                (0 === t.lastIndexOf("/", 0)
                   ? (bmak.cf_url =
-                      (bmak[_ac[305]]
-                        ? _ac[45]
-                        : document[_ac[225]][_ac[200]]) +
-                      _ac[141] +
-                      document[_ac[225]][_ac[651]] +
+                      (bmak.fsp ? "https:" : document.hpu.protocol) +
+                      "//" +
+                      document.hpu.hostname +
                       t)
                   : (bmak.cf_url = t));
             },
@@ -2950,17 +2944,17 @@ var _cf = _cf || [],
                 for (t = 0; t < arguments.length; t += 1)
                   bmak.sdfn.push(arguments[t]);
               } catch (t) {
-                bmak.sd_debug(_ac[60] + t);
+                bmak.sd_debug(",setSDFN:" + t);
               }
             },
             _setUseAltFonts: function (t) {
-              bmak[_ac[464]] = t;
+              bmak.altFonts = t;
             },
             _setPowState: function (t) {
-              bmak[_ac[394]] = t;
+              bmak.pstate = t;
             },
             _setPow: function (t) {
-              bmak[_ac[394]] = t;
+              bmak.pstate = t;
             },
             _setLOAP: function (t) {
               bmak.loap = t;
@@ -2969,13 +2963,13 @@ var _cf = _cf || [],
           applyFunc: function () {
             var t, a, e;
             for (t = 0; t < arguments.length; t += 1) e = arguments[t];
-            (a = e[_ac[458]]()),
-              bmak[_ac[155]][a] &&
-                bmak[_ac[155]][a][_ac[251]](bmak[_ac[155]], e);
+            (a = e.shift()),
+              bmak.listFunctions[a] &&
+                bmak.listFunctions[a].apply(bmak.listFunctions, e);
           },
           getStateField: function (t) {
             for (
-              var a = "", e = _ac[604], n = 0, o = t.toLowerCase();
+              var a = "", e = "aeiouy13579", n = 0, o = t.toLowerCase();
               n < o.length;
 
             )
@@ -2990,62 +2984,62 @@ if (
   ((function (t) {
     var a = {};
     (t.fpcf = a),
-      (a[_ac[620]] = function () {
+      (a.sf4 = function () {
         var t = bmak.uar();
         return !(
-          !~t.indexOf(_ac[408]) ||
+          !~t.indexOf("Version/4.0") ||
           !(
-            ~t.indexOf(_ac[381]) ||
-            ~t.indexOf(_ac[688]) ||
-            ~t.indexOf(_ac[674])
+            ~t.indexOf("iPad;") ||
+            ~t.indexOf("iPhone") ||
+            ~t.indexOf("Mac OS X 10_5")
           )
         );
       }),
-      (a.fpValstr = _ac[636]),
+      (a.fpValstr = -1),
       (a.fpValCalculated = !1),
-      (a.rVal = _ac[636]),
-      (a.rCFP = _ac[636]),
-      (a[_ac[209]] = {}),
+      (a.rVal = -1),
+      (a.rCFP = -1),
+      (a.cache = {}),
       (a.td = -999999),
-      (a[_ac[513]] = function () {
-        a[_ac[209]] = {};
+      (a.clearCache = function () {
+        a.cache = {};
       }),
       (a.fpVal = function () {
         a.fpValCalculated = !0;
         try {
           var t = 0;
           t = Date.now ? Date.now() : +new Date();
-          var e = a[_ac[306]]();
-          a.fpValstr = e.replace(/\"/g, _ac[322]);
+          var e = a.data();
+          a.fpValstr = e.replace(/\"/g, '\\"');
           var n = 0;
           (n = Date.now ? Date.now() : +new Date()), (a.td = n - t);
         } catch (t) {}
       }),
-      (a[_ac[166]] = function () {
-        return new Date()[_ac[527]]();
+      (a.timezoneOffsetKey = function () {
+        return new Date().getTimezoneOffset();
       }),
-      (a[_ac[306]] = function () {
-        var t = screen[_ac[111]] ? screen[_ac[111]] : -1,
-          e = screen[_ac[382]] ? screen[_ac[382]] : -1,
-          n = navigator[_ac[761]] ? navigator[_ac[761]] : -1,
-          o = navigator[_ac[131]] ? navigator[_ac[131]]() : -1,
-          m = navigator[_ac[324]] ? navigator[_ac[324]] : -1,
-          r = _ac[301];
-        r = bmak[_ac[360]]
-          ? bmak[_ac[464]]
-            ? a[_ac[180]]()
-            : a[_ac[508]]()
-          : _ac[158];
+      (a.data = function () {
+        var t = screen.colorDepth ? screen.colorDepth : -1,
+          e = screen.pixelDepth ? screen.pixelDepth : -1,
+          n = navigator.cookieEnabled ? navigator.cookieEnabled : -1,
+          o = navigator.javaEnabled ? navigator.javaEnabled() : -1,
+          m = navigator.doNotTrack ? navigator.doNotTrack : -1,
+          r = "default";
+        r = bmak.runFonts
+          ? bmak.altFonts
+            ? a.fonts_optm()
+            : a.fonts()
+          : "dis";
         return [
-          a[_ac[96]](_ac[64]),
-          a[_ac[96]](_ac[535]),
+          a.canvas("<@nv45. F1n63r,Pr1n71n6!"),
+          a.canvas("m,Ev!xV67BaU> eh2m<f3AG3@"),
           r,
-          a[_ac[138]](),
-          a[_ac[462]](),
-          a[_ac[368]](),
-          a[_ac[699]](),
-          a[_ac[166]](),
-          a[_ac[530]](),
+          a.pluginInfo(),
+          a.sessionStorageKey(),
+          a.localStorageKey(),
+          a.indexedDbKey(),
+          a.timezoneOffsetKey(),
+          a.webrtcKey(),
           t,
           e,
           n,
@@ -3053,77 +3047,77 @@ if (
           m,
         ].join(";");
       }),
-      (a[_ac[186]] = [
-        _ac[263],
-        _ac[280],
-        _ac[471],
-        _ac[590],
-        _ac[101],
-        _ac[184],
-        _ac[621],
-        _ac[495],
-        _ac[201],
-        _ac[619],
-        _ac[765],
-        _ac[181],
-        _ac[258],
-        _ac[50],
-        _ac[307],
-        _ac[566],
-        _ac[143],
-        _ac[453],
-        _ac[499],
-        _ac[241],
-        _ac[467],
-        _ac[93],
-        _ac[37],
-        _ac[149],
-        _ac[77],
-        _ac[349],
-        _ac[582],
+      (a.PLUGINS = [
+        "WebEx64 General Plugin Container",
+        "YouTube Plug-in",
+        "Java Applet Plug-in",
+        "Shockwave Flash",
+        "iPhotoPhotocast",
+        "SharePoint Browser Plug-in",
+        "Chrome Remote Desktop Viewer",
+        "Chrome PDF Viewer",
+        "Native Client",
+        "Unity Player",
+        "WebKit-integrierte PDF",
+        "QuickTime Plug-in",
+        "RealPlayer Version Plugin",
+        "RealPlayer(tm) G2 LiveConnect-Enabled Plug-In (32-bit)",
+        "Mozilla Default Plug-in",
+        "Adobe Acrobat",
+        "AdobeAAMDetect",
+        "Google Earth Plug-in",
+        "Java Plug-in 2 for NPAPI Browsers",
+        "Widevine Content Decryption Module",
+        "Microsoft Office Live Plug-in",
+        "Windows Media Player Plug-in Dynamic Link Library",
+        "Google Talk Plugin Video Renderer",
+        "Edge PDF Viewer",
+        "Shockwave for Director",
+        "Default Browser Helper",
+        "Silverlight Plug-In",
       ]),
-      (a[_ac[138]] = function () {
+      (a.pluginInfo = function () {
         if (void 0 === navigator.plugins) return null;
-        for (var t = a[_ac[186]].length, e = "", n = 0; n < t; n++) {
-          var o = a[_ac[186]][n];
+        for (var t = a.PLUGINS.length, e = "", n = 0; n < t; n++) {
+          var o = a.PLUGINS[n];
           void 0 !== navigator.plugins[o] && (e = e + "," + n);
         }
         return e;
       }),
-      (a[_ac[96]] = function (t) {
+      (a.canvas = function (t) {
         try {
-          if (void 0 !== a[_ac[209]][_ac[96]]) return a[_ac[209]][_ac[96]];
+          if (void 0 !== a.cache.canvas) return a.cache.canvas;
           var e = -1;
-          if (!a[_ac[620]]()) {
-            var n = document.createElement(_ac[96]);
+          if (!a.sf4()) {
+            var n = document.createElement("canvas");
             if (
-              ((n[_ac[561]] = 280),
-              (n[_ac[745]] = 60),
-              (n.style[_ac[691]] = _ac[153]),
+              ((n.width = 280),
+              (n.height = 60),
+              (n.style.display = "none"),
               "function" == typeof n.getContext)
             ) {
-              var o = n.getContext(_ac[719]);
-              (o[_ac[588]] = _ac[386]),
-                o[_ac[494]](100, 5, 80, 50),
-                (o[_ac[588]] = _ac[633]),
-                (o[_ac[749]] = _ac[248]),
-                o[_ac[483]](t, 10, 40),
-                (o[_ac[410]] = _ac[770]),
-                o[_ac[11]](80, 10, 20, 0, Math[_ac[284]], !1),
-                o[_ac[102]]();
-              var m = n[_ac[43]]();
+              var o = n.getContext("2d");
+              (o.fillStyle = rgb(102, 204, 0)),
+                o.fillRect(100, 5, 80, 50),
+                (o.fillStyle = "#f60"),
+                (o.font = "16pt Arial"),
+                o.fillText(t, 10, 40),
+                (o.strokeStyle = rgb(120, 186, 176)),
+                o.arc(80, 10, 20, 0, Math.PI, !1),
+                o.stroke();
+              var m = n.toDataURL();
               e = 0;
               for (var r = 0; r < m.length; r++) {
                 (e = (e << 5) - e + m.charCodeAt(r)), (e &= e);
               }
               e = e.toString();
-              var i = document.createElement(_ac[96]);
-              (i[_ac[561]] = 16), (i[_ac[745]] = 16);
-              var c = i.getContext(_ac[719]);
-              (c[_ac[749]] = _ac[124]),
-                (a.rVal = Math.floor(1000 * Math.random())[_ac[242]]()),
-                c[_ac[483]](a.rVal, 1, 12);
-              for (var b = i[_ac[43]](), d = 0, s = 0; s < b.length; s++) {
+              var i = document.createElement("canvas");
+              (i.width = 16), (i.height = 16);
+              var c = i.getContext("2d");
+              (c.font = "6pt Arial"),
+                (a.rVal = Math.floor(1000 * Math.random()).toString()),
+                c.fillText(a.rVal, 1, 12);
+              for (var b = i.toDataURL(), d = 0, s = 0; s < b.length; s++) {
                 (d = (d << 5) - d + b.charCodeAt(s)), (d &= d);
               }
               a.rCFP = d.toString();
@@ -3131,88 +3125,94 @@ if (
           }
           return e;
         } catch (t) {
-          return _ac[555];
+          return exception;
         }
       }),
-      (a[_ac[180]] = function () {
+      (a.fonts_optm = function () {
         var t = 200,
           e = bmak.get_cf_date(),
           n = [];
-        if (!a[_ac[620]]() && document.body) {
-          var o = [_ac[229], _ac[759]],
+        if (!a.sf4() && document.body) {
+          var o = ["sans-serif", "monospace"],
             m = [0, 0],
             r = [0, 0],
-            i = document.createElement(_ac[36]);
-          i.style[_ac[374]] = _ac[371];
+            i = document.createElement("div");
+          i.style.cssText =
+            "position: relative; left: -9999px; visibility: hidden; display: block !important";
           var c;
           for (c = 0; c < o.length; c++) {
             var b = document.createElement("span");
-            (b.innerHTML = _ac[635]),
-              (b.style.fontSize = _ac[760]),
+            (b.innerHTML = "abcdefhijklmnopqrstuvxyz1234567890;+-."),
+              (b.style.fontSize = "90px"),
               (b.style.fontFamily = o[c]),
               i.appendChild(b);
           }
-          for (document.body.appendChild(i), c = 0; c < i[_ac[506]].length; c++)
-            (b = i[_ac[506]][c]),
+          for (
+            document.body.appendChild(i), c = 0;
+            c < i.childNodes.length;
+            c++
+          )
+            (b = i.childNodes[c]),
               (m[c] = b.offsetWidth),
               (r[c] = b.offsetHeight);
           if ((document.body.removeChild(i), bmak.get_cf_date() - e > t))
             return "";
           var d = [
-              _ac[239],
-              _ac[283],
-              _ac[151],
-              _ac[562],
-              _ac[438],
-              _ac[599],
-              _ac[729],
-              _ac[13],
-              _ac[711],
-              _ac[747],
-              _ac[195],
-              _ac[405],
-              _ac[441],
-              _ac[529],
-              _ac[157],
-              _ac[188],
-              _ac[133],
-              _ac[92],
-              _ac[422],
-              _ac[198],
-              _ac[49],
-              _ac[370],
-              _ac[113],
-              _ac[735],
-              _ac[94],
-              _ac[740],
-              _ac[372],
-              _ac[544],
-              _ac[486],
-              _ac[433],
-              _ac[72],
-              _ac[738],
-              _ac[24],
-              _ac[403],
-              _ac[359],
-              _ac[174],
-              _ac[586],
-              _ac[347],
-              _ac[221],
-              _ac[665],
-              _ac[192],
-              _ac[435],
-              _ac[7],
-              _ac[580],
-              _ac[69],
+              "Geneva",
+              "Lobster",
+              "New York",
+              "Century",
+              "Apple Gothic",
+              "Minion Pro",
+              "Apple LiGothic",
+              "Century Gothic",
+              "Monaco",
+              "Lato",
+              "Fantasque Sans Mono",
+              "Adobe Braille",
+              "Cambria",
+              "Futura",
+              "Bell MT",
+              "Courier",
+              "Courier New",
+              "Calibri",
+              "Avenir Next",
+              "Birch Std",
+              "Palatino",
+              "Ubuntu Regular",
+              "Oswald",
+              "Batang",
+              "Ubuntu Medium",
+              "Cantarell",
+              "Droid Serif",
+              "Roboto",
+              "Helvetica Neue",
+              "Corsiva Hebrew",
+              "Adobe Hebrew",
+              "TI-Nspire",
+              "Comic Neue",
+              "Noto",
+              "AlNile",
+              "Palatino-Bold",
+              "ArialHebrew-Light",
+              "Avenir",
+              "Papyrus",
+              "Open Sans",
+              "Times",
+              "Quicksand",
+              "Source Sans Pro",
+              "Damascus",
+              "Microsoft Sans Serif",
             ],
-            s = document.createElement(_ac[36]);
-          s.style[_ac[374]] = _ac[371];
+            s = document.createElement("div");
+          s.style.cssText =
+            "position: relative; left: -9999px; visibility: hidden; display: block !important";
           for (var k = [], l = 0; l < d.length; l++) {
-            var u = document.createElement(_ac[36]);
+            var u = document.createElement("div");
             for (c = 0; c < o.length; c++) {
               var b = document.createElement("span");
-              (b.innerHTML = _ac[635]),
-                (b.style.fontSize = _ac[760]),
+              (b.innerHTML = "abcdefhijklmnopqrstuvxyz1234567890;+-."),
+                (b.style.fontSize = "90px"),
                 (b.style.fontFamily = d[l] + "," + o[c]),
                 u.appendChild(b);
             }
@@ -3220,11 +3220,11 @@ if (
           }
           if (bmak.get_cf_date() - e > t) return "";
           document.body.appendChild(s);
-          for (var l = 0; l < s[_ac[506]].length; l++) {
+          for (var l = 0; l < s.childNodes.length; l++) {
             var _ = !1,
-              u = s[_ac[506]][l];
-            for (c = 0; c < u[_ac[506]].length; c++) {
-              var b = u[_ac[506]][c];
+              u = s.childNodes[l];
+            for (c = 0; c < u.childNodes.length; c++) {
+              var b = u.childNodes[c];
               if (b.offsetWidth !== m[c] || b.offsetHeight !== r[c]) {
                 _ = !0;
                 break;
@@ -3236,14 +3236,15 @@ if (
         }
         return n.join(",");
       }),
-      (a[_ac[508]] = function () {
+      (a.fonts = function () {
         var t = [];
-        if (!a[_ac[620]]() && document.body) {
-          var e = [_ac[146], _ac[229], _ac[759]],
+        if (!a.sf4() && document.body) {
+          var e = ["serif", "sans-serif", "monospace"],
             n = [0, 0, 0],
             o = [0, 0, 0],
             m = document.createElement("span");
-          (m.innerHTML = _ac[635]), (m.style.fontSize = _ac[760]);
+          (m.innerHTML = "abcdefhijklmnopqrstuvxyz1234567890;+-."),
+            (m.style.fontSize = "90px");
           var r;
           for (r = 0; r < e.length; r++)
             (m.style.fontFamily = e[r]),
@@ -3253,51 +3254,51 @@ if (
               document.body.removeChild(m);
           for (
             var i = [
-                _ac[239],
-                _ac[283],
-                _ac[151],
-                _ac[562],
-                _ac[438],
-                _ac[599],
-                _ac[729],
-                _ac[13],
-                _ac[711],
-                _ac[747],
-                _ac[195],
-                _ac[405],
-                _ac[441],
-                _ac[529],
-                _ac[157],
-                _ac[188],
-                _ac[133],
-                _ac[92],
-                _ac[422],
-                _ac[198],
-                _ac[49],
-                _ac[370],
-                _ac[113],
-                _ac[735],
-                _ac[94],
-                _ac[740],
-                _ac[372],
-                _ac[544],
-                _ac[486],
-                _ac[433],
-                _ac[72],
-                _ac[738],
-                _ac[24],
-                _ac[403],
-                _ac[359],
-                _ac[174],
-                _ac[586],
-                _ac[347],
-                _ac[221],
-                _ac[665],
-                _ac[192],
-                _ac[435],
-                _ac[7],
-                _ac[580],
-                _ac[69],
+                "Geneva",
+                "Lobster",
+                "New York",
+                "Century",
+                "Apple Gothic",
+                "Minion Pro",
+                "Apple LiGothic",
+                "Century Gothic",
+                "Monaco",
+                "Lato",
+                "Fantasque Sans Mono",
+                "Adobe Braille",
+                "Cambria",
+                "Futura",
+                "Bell MT",
+                "Courier",
+                "Courier New",
+                "Calibri",
+                "Avenir Next",
+                "Birch Std",
+                "Palatino",
+                "Ubuntu Regular",
+                "Oswald",
+                "Batang",
+                "Ubuntu Medium",
+                "Cantarell",
+                "Droid Serif",
+                "Roboto",
+                "Helvetica Neue",
+                "Corsiva Hebrew",
+                "Adobe Hebrew",
+                "TI-Nspire",
+                "Comic Neue",
+                "Noto",
+                "AlNile",
+                "Palatino-Bold",
+                "ArialHebrew-Light",
+                "Avenir",
+                "Papyrus",
+                "Open Sans",
+                "Times",
+                "Quicksand",
+                "Source Sans Pro",
+                "Damascus",
+                "Microsoft Sans Serif",
               ],
               c = [],
               b = 0;
@@ -3321,81 +3322,84 @@ if (
         }
         return t.join(",");
       }),
-      (a[_ac[530]] = function () {
+      (a.webrtcKey = function () {
         return (
           "function" == typeof window.RTCPeerConnection ||
           "function" == typeof window.mozRTCPeerConnection ||
-          "function" == typeof window[_ac[362]]
+          "function" == typeof window.webkitRTCPeerConnection
         );
       }),
-      (a[_ac[699]] = function () {
-        return !!a[_ac[196]]();
+      (a.indexedDbKey = function () {
+        return !!a.hasIndexedDB();
       }),
-      (a[_ac[462]] = function () {
-        return !!a[_ac[581]]();
+      (a.sessionStorageKey = function () {
+        return !!a.hasSessionStorage();
       }),
-      (a[_ac[368]] = function () {
-        return !!a[_ac[390]]();
+      (a.localStorageKey = function () {
+        return !!a.hasLocalStorage();
       }),
-      (a[_ac[581]] = function () {
+      (a.hasSessionStorage = function () {
         try {
-          return !!window[_ac[682]];
+          return !!window.sessionStorage;
         } catch (t) {
           return !1;
         }
       }),
-      (a[_ac[390]] = function () {
+      (a.hasLocalStorage = function () {
         try {
-          return !!window[_ac[431]];
+          return !!window.localStorage;
         } catch (t) {
           return !1;
         }
       }),
-      (a[_ac[196]] = function () {
-        return !!window[_ac[531]];
+      (a.hasIndexedDB = function () {
+        return !!window.indexedDB;
       });
   })(bmak),
   bmak.firstLoad)
 ) {
-  if ((bmak.sd_debug(_ac[728]), _cf.length > 0)) {
+  if ((bmak.sd_debug("<init/>"), _cf.length > 0)) {
     for (var bm_counter = 0; bm_counter < _cf.length; bm_counter++)
-      bmak[_ac[521]](_cf[bm_counter]);
-    bmak.sd_debug(_ac[377] + bmak.sdfn.join() + _ac[443]),
+      bmak.applyFunc(_cf[bm_counter]);
+    bmak.sd_debug("<setSDFN>" + bmak.sdfn.join() + "</setSDFN>"),
       (_cf = {
-        push: bmak[_ac[521]],
+        push: bmak.applyFunc,
       });
   } else {
     var bm_script;
-    if ((document[_ac[732]] && (bm_script = document[_ac[732]]), !bm_script)) {
-      var scripts = document.getElementsByTagName(_ac[185]);
+    if (
+      (document.currentScript && (bm_script = document.currentScript),
+      !bm_script)
+    ) {
+      var scripts = document.getElementsByTagName("script");
       scripts.length && (bm_script = scripts[scripts.length - 1]);
     }
-    if (bm_script[_ac[126]]) {
-      var bm_url = bm_script[_ac[126]],
-        url_split = bm_url.split(_ac[220]),
+    if (bm_script.src) {
+      var bm_url = bm_script.src,
+        url_split = bm_url.split("/"),
         obfus_state_field;
       if (
         (url_split.length >= 4 &&
-          (obfus_state_field = bm_url.split(_ac[220]).slice(-4)[0]),
+          (obfus_state_field = bm_url.split("/").slice(-4)[0]),
         obfus_state_field && obfus_state_field.length % 2 == 0)
       ) {
-        var state_field_str = bmak[_ac[228]](obfus_state_field);
+        var state_field_str = bmak.getStateField(obfus_state_field);
         state_field_str.length >= 3 &&
-          (bmak[_ac[155]][_ac[175]](1 == state_field_str[0]),
-          bmak[_ac[155]][_ac[474]](1 == state_field_str[1]),
-          bmak[_ac[155]][_ac[641]](1 == state_field_str[2]),
-          bmak[_ac[155]][_ac[304]](bm_url));
+          (bmak.listFunctions._setFps(1 == state_field_str[0]),
+          bmak.listFunctions._setBm(1 == state_field_str[1]),
+          bmak.listFunctions._setPowState(1 == state_field_str[2]),
+          bmak.listFunctions._setAu(bm_url));
       }
     }
   }
   try {
     bmak.ir(),
-      (bmak[_ac[564]] = bmak.get_cf_date()),
-      bmak[_ac[110]](),
-      (bmak.tst = bmak.get_cf_date() - bmak[_ac[564]]),
-      bmak[_ac[476]] || setTimeout(bmak[_ac[638]], 500);
+      (bmak.t_tst = bmak.get_cf_date()),
+      bmak.startTracking(),
+      (bmak.tst = bmak.get_cf_date() - bmak.t_tst),
+      bmak.disFpCalOnTimeout || setTimeout(bmak.calc_fp, 500);
     for (var bm_counter = 0; bm_counter < 3; bm_counter++)
-      setTimeout(bmak[_ac[105]], 400 + 5e3 * bm_counter);
-    bmak[_ac[29]]();
+      setTimeout(bmak.getmr, 400 + 5e3 * bm_counter);
+    bmak.mn_init();
   } catch (t) {}
 }
